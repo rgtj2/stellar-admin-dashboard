@@ -1,0 +1,12 @@
+<div *ngIf="accountData">
+    <dl>
+        <dt>Account Public Key:</dt>
+        <dd>{{accountData.account_id}}</dd>
+        <dt>Account Balances:</dt>
+        <dd *ngFor="let accountBalance of accountData.balances">
+            {{accountBalance.balance}} ({{accountBalance.asset_type}})
+        </dd>
+    </dl>
+</div>
+
+<p>{{ accountData | json }}</p>

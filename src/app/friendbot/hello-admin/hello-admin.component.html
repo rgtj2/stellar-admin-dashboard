@@ -1,0 +1,11 @@
+<div>Hi!</div>
+
+<div *ngIf="accountFunded; else unfunded">
+    <app-account-glimpse [publicKey]="ephemeralAdminAccount.publicKey"></app-account-glimpse>
+</div>
+
+<ng-template #unfunded>
+    <button (click)="fundAdminAccount()">Fund Admin Account</button>
+</ng-template>
+
+<div *ngIf="fundingProgress">Funding account...</div>

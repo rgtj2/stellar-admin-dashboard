@@ -1,5 +1,26 @@
 # StellarAdminDashboard
 
+Dashboard for administering a Stellar test network
+
+## To run the Official Stellar Core + Horizon Docker container:
+
+```
+docker run --rm -it -p "8000:8000" --name stellar stellar/quickstart --testnet
+```
+
+See the official docs [here](https://github.com/stellar/docker-stellar-core-horizon)
+
+## To run a community Stellar Core + Horizon Docker container:
+
+```
+docker run -it \
+    --rm \
+    --name horizon-integrationnet \
+    -p 8000:8000 \
+    zulucrypto/stellar-integration-test-network
+```
+Credit to zulucrypto. See the repo [here](https://github.com/zulucrypto/docker-stellar-integration-test-network)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
 
 ## Development server

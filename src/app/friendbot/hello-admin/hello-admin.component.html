@@ -1,11 +1,18 @@
 <div>Hi!</div>
 
-<div *ngIf="accountFunded; else unfunded">
-    <app-account-glimpse [publicKey]="ephemeralAdminAccount.publicKey"></app-account-glimpse>
+<!-- Ephemeral account glimpse.. move this out -->
+<div [ngSwitch]="adminFundState">
+    <div *ngSwitchCase="'funded'">
+        <app-account-glimpse [publicKey]="ephemeralAdminAccount.publicKey"></app-account-glimpse>
+    </div>
+    <div *ngSwitchCase="'unfunded'">
+        <!-- Request funds button.. move this out -->
+        <button (click)="fundAdminAccount()">Fund Admin Account</button>
+    </div>
 </div>
 
-<ng-template #unfunded>
-    <button (click)="fundAdminAccount()">Fund Admin Account</button>
-</ng-template>
-
-<div *ngIf="fundingProgress">Funding account...</div>
+<!-- Request state.. move this out -->
+<div class="request-state" [ngSwitch]="requestState">
+    <div *ngSwitchCase="'waiting'">Requesting funds...</div>
+    <div *ngSwitchCase="'error'">Something went wrong..</div>
+</div>

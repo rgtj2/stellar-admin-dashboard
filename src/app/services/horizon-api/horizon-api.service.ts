@@ -1,12 +1,12 @@
 import { HORIZON_URL } from './../injection-tokens';
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class HorizonApiService {
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               @Inject(HORIZON_URL) private horizonBaseUrl: string) {}
 
 

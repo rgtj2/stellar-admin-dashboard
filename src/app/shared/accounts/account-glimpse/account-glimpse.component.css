@@ -1,0 +1,15 @@
+/* TODO: Implement some style improvement / structure ideas */
+
+dt {
+    font-weight: 600;
+}
+
+p {
+    font-size: .8em;
+    padding: 1em;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}

@@ -1,15 +1,15 @@
-const stellarBaseSDK = require('stellar-base');
-import { Injectable, Inject } from '@angular/core';
+
+import { Injectable } from '@angular/core';
+import { StellarBaseSdkService } from '../../stellar-sdk/stellar-base-sdk.service';
 
 @Injectable()
 export class AccountGeneratorService {
 
-  constructor() {
-    console.log(this, 'hi', stellarBaseSDK);
+  constructor(private baseSDK: StellarBaseSdkService) {
   }
 
   public generateAccount(): any {
-    const keypair = stellarBaseSDK.Keypair.random();
+    const keypair = this.baseSDK.base.Keypair.random();
     return {
       secret: keypair.secret(),
       publicKey: keypair.publicKey()

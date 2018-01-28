@@ -18,9 +18,7 @@ export class AccountGlimpseComponent implements OnInit {
 
   private getAccount(): void {
     this.horizonApi.get(`/accounts/${this.publicKey}`).subscribe((response) => {
-      const deserialized = JSON.parse(response._body);
-      console.log(deserialized);
-      this.accountData = deserialized;
+      this.accountData = response;
     });
   }
 

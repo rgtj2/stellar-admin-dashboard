@@ -1,3 +1,4 @@
 import { InjectionToken } from '@angular/core';
 
-export const HORIZON_URL = new InjectionToken<string>('HORIZON_URL');
+export const PRODUCTION_HORIZON_URL = new InjectionToken<string>('PRODUCTION_HORIZON_URL');
+export const TEST_HORIZON_URL = new InjectionToken<string>('TEST_HORIZON_URL');

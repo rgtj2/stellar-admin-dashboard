@@ -1,28 +1,25 @@
 import { AccountGeneratorService } from './accounts/account-generator/account-generator.service';
 import { FriendbotService } from './friendbot/friendbot.service';
-import { HorizonApiService } from './horizon-api/horizon-api.service';
+import { NetworkEnvironmentService } from './network-environment/network-environment.service';
 import { StellarBaseSdkService } from './stellar-sdk/stellar-base-sdk.service';
-
-import { HORIZON_URL } from './injection-tokens';
-import { environment } from './../../environments/environment';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
+import { HorizonApiModule } from './horizon-api/horizon-api.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    HorizonApiModule
   ],
   declarations: [],
   providers: [
     AccountGeneratorService,
     FriendbotService,
-    HorizonApiService,
-    StellarBaseSdkService,
-    {provide: HORIZON_URL, useValue: environment.HORIZON_URL}
+    NetworkEnvironmentService,
+    StellarBaseSdkService
   ]
 })
 export class ServicesModule { }

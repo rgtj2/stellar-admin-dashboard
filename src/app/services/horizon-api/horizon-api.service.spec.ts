@@ -1,20 +1,23 @@
+import { HorizonApiService } from './horizon-api.service';
+import { NetworkEnvironmentService } from '../network-environment/network-environment.service';
+import { QueryRunnerService } from './query-runner/query-runner.service';
+
 import { HttpClient } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 
-import { HorizonApiService } from './horizon-api.service';
-import { HORIZON_URL } from '../injection-tokens';
-
 describe('HorizonApiService', () => {
   let horizonApiService: HorizonApiService;
-  let mockHttp;
+  let mockNetworkEnvironment;
+  let mockQueryRunner;
 
   beforeEach(() => {
-    mockHttp = jasmine.createSpyObj('Http', ['get', 'post']);
+    mockNetworkEnvironment = jasmine.createSpyObj('NetworkEnvironment', ['horizonURL']);
+    mockQueryRunner = jasmine.createSpyObj('QueryRunner', ['get', 'post']);
     TestBed.configureTestingModule({
       providers: [
         HorizonApiService,
-        {provide: HttpClient, useValue: mockHttp},
-        {provide: HORIZON_URL, useValue: 'myserver.url'}
+        {providers: NetworkEnvironmentService, useValue: mockNetworkEnvironment},
+        {providers: QueryRunnerService, useValue: mockQueryRunner}
       ]
     });
   });
@@ -23,8 +26,5 @@ describe('HorizonApiService', () => {
     horizonApiService = s;
   }));
 
-  // TODO: move this to a query runner service
   // TODO: Add typed endpoints and composable query params
-  describe('get', () => {});
-  describe('post', () => {});
 });

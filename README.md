@@ -2,6 +2,24 @@
 
 Dashboard for administering a Stellar test network
 
+There is a npm script to run an 'ephemeral' Stellar-core and Horizon instance locally.
+
+First, to set everything up:
+
+1) Make sure you have Node and NPM installed
+2) Run ```npm install```
+ - This will install node modules used for the client application
+3) Make sure you have Docker installed and running
+
+4) Run the docker container and client app
+
+    a) Run ```chmod +x ./scripts/test-docker.sh``` to set permission to run the test docker script
+    b) Run ```npm run stellar-docker``` to run the docker container
+    c) Run ```npm start``` in a separate session to start the client app
+
+
+# Development
+
 ## To run the Official Stellar Core + Horizon Docker container:
 
 ```

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  HORIZON_URL: ''
+  PRODUCTION_HORIZON_URL: '',
+  TEST_HORIZON_URL: ''
 };

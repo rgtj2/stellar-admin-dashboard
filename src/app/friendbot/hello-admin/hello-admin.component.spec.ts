@@ -4,6 +4,7 @@
 import { AccountGeneratorService } from './../../services/accounts/account-generator/account-generator.service';
 import { FriendbotService } from './../../services/friendbot/friendbot.service';
 import { HelloAdminComponent } from './hello-admin.component';
+import { TestComponentHandle } from './../../utilties/test-helpers/test-component-handle/test-component-handle';
 
 /**
  * System / libraries
@@ -11,24 +12,6 @@ import { HelloAdminComponent } from './hello-admin.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-
-// TODO: Move this out
-class TestComponentHandle<T> {
-  constructor(public testComponent: ComponentFixture<T>) {
-  }
-
-  public get componentInstance(): T {
-    return this.testComponent.componentInstance;
-  }
-
-  public get debugElement(): DebugElement {
-    return this.testComponent.debugElement;
-  }
-
-  public detectChanges(): void {
-    this.testComponent.detectChanges();
-  }
-}
 
 describe('HelloAdminComponent', () => {
   /**

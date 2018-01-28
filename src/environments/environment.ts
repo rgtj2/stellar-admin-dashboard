@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  HORIZON_URL: 'http://localhost:8000'
+  PRODUCTION_HORIZON_URL: 'http://localhost:8001',
+  TEST_HORIZON_URL: 'http://localhost:8000'
 };

@@ -96,8 +96,8 @@ describe('HelloAdminComponent', () => {
         component.fundAdminAccount();
         handle.detectChanges();
       });
-      it('should set .adminFundState', () => {
-        expect(component.adminFundState).toBe('unfunded');
+      it('should set .requestState', () => {
+        expect(component.requestState).toBe('waiting');
       });
       describe('when calling the FriendBotService,', () => {
         it('should call .requestFunds', () => {

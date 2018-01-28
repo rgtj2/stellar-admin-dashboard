@@ -45,7 +45,6 @@ export class HelloAdminComponent implements OnInit {
         // TODO: Move / improve Response Parsing
         this.requestState = 'complete';
         this.adminFundState = 'funded';
-        console.log(this);
       }, () => {
         // TODO: Move / improve Error Handling
         this.requestState = 'error';

@@ -1,6 +1,7 @@
+import { Account } from '../../../shared/models/account';
+import { StellarBaseSdkService } from '../../stellar-sdk/stellar-base-sdk.service';
 
 import { Injectable } from '@angular/core';
-import { StellarBaseSdkService } from '../../stellar-sdk/stellar-base-sdk.service';
 
 @Injectable()
 export class AccountGeneratorService {
@@ -8,12 +9,10 @@ export class AccountGeneratorService {
   constructor(private baseSDK: StellarBaseSdkService) {
   }
 
-  public generateAccount(): any {
+  public generateAccount(): Account {
+    // TODO: Explore other ways to generate accounts
     const keypair = this.baseSDK.base.Keypair.random();
-    return {
-      secret: keypair.secret(),
-      publicKey: keypair.publicKey()
-    };
+    return new Account(keypair.publicKey(), keypair.secret());
   }
 
 }

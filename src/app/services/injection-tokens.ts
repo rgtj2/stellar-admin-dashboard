@@ -1,4 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-export const PRODUCTION_HORIZON_URL = new InjectionToken<string>('PRODUCTION_HORIZON_URL');
-export const TEST_HORIZON_URL = new InjectionToken<string>('TEST_HORIZON_URL');
+export const HORIZON_PRODUCTION_URL = new InjectionToken<string>('HORIZON_PRODUCTION_URL');
+export const HORIZON_TEST_URL = new InjectionToken<string>('HORIZON_TEST_URL');
+export const NETWORK_IS_PERSISTENT = new InjectionToken<boolean>('NETWORK_IS_PERSISTENT');
+export const FRIENDBOT_IS_ENABLED = new InjectionToken<boolean>('FRIENDBOT_IS_ENABLED');

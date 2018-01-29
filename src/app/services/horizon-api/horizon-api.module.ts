@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { HorizonApiService } from './horizon-api.service';
-import { PRODUCTION_HORIZON_URL, TEST_HORIZON_URL } from './../injection-tokens';
+import { HORIZON_PRODUCTION_URL, HORIZON_TEST_URL, NETWORK_IS_PERSISTENT } from './../injection-tokens';
 import { QueryRunnerService } from './query-runner/query-runner.service';
 
 import { NgModule } from '@angular/core';
@@ -14,8 +14,9 @@ import { CommonModule } from '@angular/common';
   providers: [
     HorizonApiService,
     QueryRunnerService,
-    {provide: PRODUCTION_HORIZON_URL, useValue: environment.PRODUCTION_HORIZON_URL},
-    {provide: TEST_HORIZON_URL, useValue: environment.TEST_HORIZON_URL}
+    {provide: HORIZON_PRODUCTION_URL, useValue: environment.HORIZON_PRODUCTION_URL},
+    {provide: HORIZON_TEST_URL, useValue: environment.HORIZON_TEST_URL},
+    {provide: NETWORK_IS_PERSISTENT, useValue: environment.NETWORK_IS_PERSISTENT}
   ]
 })
 export class HorizonApiModule { }

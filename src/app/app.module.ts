@@ -1,5 +1,5 @@
 import { AppComponent } from './app.component';
-import { HelloAdminComponent } from './friendbot/hello-admin/hello-admin.component';
+import { HelloAdminComponent } from './hello-admin/hello-admin.component';
 import { ServicesModule } from './services/services.module';
 import { SharedModule } from './shared/shared.module';
 

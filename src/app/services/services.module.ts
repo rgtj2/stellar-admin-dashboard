@@ -1,3 +1,5 @@
+import { environment } from './../../environments/environment';
+import { FRIENDBOT_IS_ENABLED, NETWORK_IS_PERSISTENT } from './injection-tokens';
 import { AccountGeneratorService } from './accounts/account-generator/account-generator.service';
 import { FriendbotService } from './friendbot/friendbot.service';
 import { NetworkEnvironmentService } from './network-environment/network-environment.service';
@@ -19,7 +21,9 @@ import { HorizonApiModule } from './horizon-api/horizon-api.module';
     AccountGeneratorService,
     FriendbotService,
     NetworkEnvironmentService,
-    StellarBaseSdkService
+    StellarBaseSdkService,
+    {provide: FRIENDBOT_IS_ENABLED, useValue: environment.FRIENDBOT_IS_ENABLED},
+    {provide: NETWORK_IS_PERSISTENT, useValue: environment.NETWORK_IS_PERSISTENT}
   ]
 })
 export class ServicesModule { }

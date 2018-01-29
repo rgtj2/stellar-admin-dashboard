@@ -1,13 +1,12 @@
 <div>Hi!</div>
 
-<!-- Ephemeral account glimpse.. move this out -->
 <div [ngSwitch]="adminFundState">
     <div *ngSwitchCase="'funded'">
-        <app-account-glimpse [publicKey]="ephemeralAdminAccount.publicKey"></app-account-glimpse>
+        <app-account-glimpse [publicKey]="adminAccount.publicKey"></app-account-glimpse>
     </div>
     <div *ngSwitchCase="'unfunded'">
-        <!-- Request funds button.. move this out -->
-        <button (click)="fundAdminAccount()">Fund Admin Account</button>
+        <!-- Request Friendbot funds button.. move this out -->
+        <button *ngIf="allowFriendbot" class="friendbot-request" (click)="fundAdminAccount()">Fund Admin Account</button>
     </div>
 </div>
 

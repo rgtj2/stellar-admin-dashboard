@@ -1,24 +1,33 @@
-import { HORIZON_PRODUCTION_URL, HORIZON_TEST_URL, NETWORK_IS_PERSISTENT, FRIENDBOT_IS_ENABLED } from './../injection-tokens';
+import { HorizonProductionServer } from '../../shared/models/horizon-server/horizon-production-server';
+import { HorizonTestServer } from './../../shared/models/horizon-server/horizon-test-server';
+import { HORIZON_PRODUCTION_URL, HORIZON_TEST_URL, NETWORK_IS_PERSISTENT } from './../injection-tokens';
+
 import { Injectable, Inject } from '@angular/core';
 
 type HorizonNetworkEnvironment = 'test' | 'production';
+type HorizonNetworkConfig = HorizonProductionServer | HorizonTestServer;
 
 @Injectable()
 export class NetworkEnvironmentService {
-  private _horizonURL: string;
+  private _currentHorizonConfig: HorizonNetworkConfig;
+  private _productionConfig: HorizonProductionServer;
+  private _testConfig: HorizonTestServer;
 
-  constructor(@Inject(FRIENDBOT_IS_ENABLED) public readonly friendbotIsEnabled: boolean,
-              @Inject(HORIZON_PRODUCTION_URL) private readonly horizonProductionURL: string,
-              @Inject(HORIZON_TEST_URL) private readonly horizonTestURL: string,
-              @Inject(NETWORK_IS_PERSISTENT) public readonly isPersistent: boolean) { }
+  constructor(@Inject(HORIZON_PRODUCTION_URL) readonly horizonProductionURL: string,
+              @Inject(HORIZON_TEST_URL) readonly horizonTestURL: string,
+              @Inject(NETWORK_IS_PERSISTENT) readonly isPersistent: boolean) {
 
-  public get horizonURL(): string {
-    return this._horizonURL;
+    this._productionConfig = new HorizonProductionServer(horizonProductionURL, isPersistent);
+    this._testConfig = new HorizonTestServer(horizonTestURL, isPersistent);
+  }
+
+  public get horizonConfig(): HorizonNetworkConfig {
+    return this._currentHorizonConfig;
   }
 
   // TODO: Use a setter here, update jasmine, and test with .spyOnProperty
-  public setHorizonURL(env: HorizonNetworkEnvironment): void {
-    this._horizonURL = env === 'production' ? this.horizonProductionURL : this.horizonTestURL;
+  public setHorizonConfig(env: HorizonNetworkEnvironment): void {
+    this._currentHorizonConfig = env === 'production' ? this._productionConfig : this._testConfig;
   }
 
 }

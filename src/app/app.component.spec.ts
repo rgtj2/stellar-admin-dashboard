@@ -12,7 +12,7 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     // TODO: Update jasmine, change network env to use a setter, and use .spyOnProperty
-    mockNetworkEnvironment = jasmine.createSpyObj('NetworkEnvironment', ['setHorizonURL']);
+    mockNetworkEnvironment = jasmine.createSpyObj('NetworkEnvironment', ['setHorizonConfig']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -35,7 +35,7 @@ describe('AppComponent', () => {
   describe('.ngOnInit', () => {
     describe('when setting the NetworkEnvironmentService.horizonURL', () => {
       it('should just set it to \'test\' for now', () => {
-        expect(mockNetworkEnvironment.setHorizonURL).toHaveBeenCalledWith('test');
+        expect(mockNetworkEnvironment.setHorizonConfig).toHaveBeenCalledWith('test');
       });
     });
   });

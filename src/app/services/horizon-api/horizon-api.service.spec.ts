@@ -12,7 +12,7 @@ describe('HorizonApiService', () => {
   let mockQueryRunner, mockRequest;
 
   beforeEach(() => {
-    mockNetworkEnvironment = {horizonURL: 'test.horizon.url'};
+    mockNetworkEnvironment = {horizonConfig: {url: 'test.horizon.url'}};
     mockQueryRunner = jasmine.createSpyObj('QueryRunner', ['get', 'post']);
     mockRequest = new Subject();
     mockQueryRunner.get.and.returnValue(mockRequest);
@@ -49,7 +49,7 @@ describe('HorizonApiService', () => {
       it('should use the horizon url and the given path', () => {
         const call = mockQueryRunner.get.calls.mostRecent();
         const urlArgument = call.args[0];
-        expect(urlArgument).toBe(mockNetworkEnvironment.horizonURL + mockUrlPath);
+        expect(urlArgument).toBe(mockNetworkEnvironment.horizonConfig.url + mockUrlPath);
       });
     });
     it('should return the query runner\'s request', () => {
@@ -80,7 +80,7 @@ describe('HorizonApiService', () => {
           bodyArgument = call.args[1];
         });
         it('should build the proper url', () => {
-          expect(urlArgument).toBe(mockNetworkEnvironment.horizonURL + mockUrlPath);
+          expect(urlArgument).toBe(mockNetworkEnvironment.horizonConfig.url + mockUrlPath);
         });
         it('should use the proper body', () => {
           expect(bodyArgument).toBe(mockUrlBody);

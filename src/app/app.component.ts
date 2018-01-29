@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   constructor(private networkEnvironment: NetworkEnvironmentService) {}
 
   ngOnInit(): void {
-    this.networkEnvironment.setHorizonURL('test');
+    this.networkEnvironment.setHorizonConfig('test');
   }
 
 }

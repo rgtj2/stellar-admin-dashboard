@@ -13,13 +13,13 @@ export class HorizonApiService {
 
   public get(urlPath: string): Observable<any> {
     // TODO: Api Models + Serialization
-    const url = this.network.horizonURL + urlPath;
+    const url = this.network.horizonConfig.url + urlPath;
     return this.queryRunner.get(url);
   }
 
   public post(urlPath: string, body = {}): Observable<any> {
     // TODO: Api Models + Serialization
-    const url = this.network.horizonURL + urlPath;
+    const url = this.network.horizonConfig.url + urlPath;
     return this.queryRunner.post(url, body);
   }
 

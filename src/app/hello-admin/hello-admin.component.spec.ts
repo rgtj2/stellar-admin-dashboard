@@ -48,7 +48,11 @@ describe('HelloAdminComponent', () => {
     /**
      * Mocks for NetworkEnvironmentService
      */
-    mockNetworkEnvironment = {friendbotIsEnabled: true, networkIsPersistent: false};
+    mockNetworkEnvironment = {
+      horizonConfig: {
+        friendbotIsEnabled: true, networkIsPersistent: false
+      }
+    };
 
     TestBed.configureTestingModule({
       declarations: [ HelloAdminComponent ],

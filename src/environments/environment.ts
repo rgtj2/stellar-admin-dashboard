@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  FRIENDBOT_IS_ENABLED: true,
   HORIZON_PRODUCTION_URL: 'http://localhost:8001',
   HORIZON_TEST_URL: 'http://localhost:8000',
   NETWORK_IS_PERSISTENT: false

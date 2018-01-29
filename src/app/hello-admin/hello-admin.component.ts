@@ -29,7 +29,7 @@ export class HelloAdminComponent implements OnInit {
               private networkEnvironment: NetworkEnvironmentService) { }
 
   ngOnInit() {
-    this.allowFriendbot = this.networkEnvironment.friendbotIsEnabled;
+    this.allowFriendbot = this.networkEnvironment.horizonConfig.friendbotIsEnabled;
     this.initializeAdminAccount();
   }
 
@@ -47,7 +47,7 @@ export class HelloAdminComponent implements OnInit {
   }
 
   private initializeAdminAccount(): void {
-    if (this.networkEnvironment.isPersistent) {
+    if (this.networkEnvironment.horizonConfig.networkIsPersistent) {
       throw new Error('TODO: Provide interfaces for existing accounts');
     } else {
       this.adminAccount = this.accountGenerator.generateAccount();

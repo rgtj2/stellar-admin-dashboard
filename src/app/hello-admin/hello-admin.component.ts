@@ -1,9 +1,8 @@
-import { StellarAccountKeypair } from './../shared/models/stellar-account/stellar-account-keypair';
-
 import { FriendbotService } from '../services/horizon-api/friendbot/friendbot.service';
 import { HorizonApiService } from '../services/horizon-api/horizon-api.service';
 import { NetworkEnvironmentService } from './../services/network-environment/network-environment.service';
 import { StellarAccountGeneratorService } from '../services/stellar-account/stellar-account-generator/stellar-account-generator.service';
+import { StellarAccountKeypair } from './../shared/models/stellar-account/stellar-account-keypair';
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';

@@ -4,8 +4,8 @@ import { TestComponentHandle } from './../../utilties/testing/test-component-han
 
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs/Subject';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 describe('StellarAccountDetailComponent', () => {
   let handle: TestComponentHandle<StellarAccountDetailComponent>;

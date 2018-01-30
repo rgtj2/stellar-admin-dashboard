@@ -45,7 +45,7 @@ describe('NetworkEnvironmentService', () => {
       it('should have the proper url', () => {
         expect(service.horizonConfig.url).toBe(mockHorizonProductionURL);
       });
-      it('should have friendbot enabled', () => {
+      it('should have friendbot disabled', () => {
         expect(service.horizonConfig.friendbotIsEnabled).toBe(false);
       });
       it('should have the networkIsPersistent property', () => {

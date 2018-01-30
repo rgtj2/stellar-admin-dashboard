@@ -8,48 +8,28 @@ First, to set everything up:
 
 1) Make sure you have Node and NPM installed  
 2) Run ```npm install```  
- - This will install node modules used for the client application  
 3) Make sure you have Docker installed and running  
 
 4a) Run the docker container in ephemeral mode:  
 
-    4a.1) Run ```chmod +x ./scripts/init-ephemeral-network.sh``` to set permissions on the file running the docker script  
-    4a.2) Run ```npm run stellar-ephemeral``` to run the docker container  
+ - Run ```chmod +x ./scripts/init-ephemeral-network.sh``` to set permissions on the file running the docker script  
+ - Run ```npm run stellar-ephemeral``` to run the docker container  
 
 4b) Run the Docker container in persistent mode:  
-    4b.1) Update the path in /scripts/init-persistent-network.sh to your local directory
-    4b.2) Run ```chmod +x ./scripts/init-peristent-network.sh``` to set permissions on the file running the docker script  
-    4b.3) Run ```npm run stellar-persistent``` to initialize the docker container  
-    4b.4) Go through the interactive steps. Then, quit the session.
-    4b.5) Restart the service with another ```npm run stellar-persistent```
+ - Update the path in /scripts/init-persistent-network.sh to your local directory
+ - Run ```chmod +x ./scripts/init-peristent-network.sh``` to set permissions on the file running the docker script  
+ - Run ```npm run stellar-persistent``` to initialize the docker container  
+ - Go through the interactive steps. Then, quit the session.
+ - Restart the service with another ```npm run stellar-persistent```
 
 5) Run ```npm start``` in a separate session to start the client app  
 
 
-# Development
-
-## To run the Official Stellar Core + Horizon Docker container:
-
-```
-docker run --rm -it -p "8000:8000" --name stellar stellar/quickstart --testnet
-```
+# Stellar Core / Horizon Development
 
 See the official docs [here](https://github.com/stellar/docker-stellar-core-horizon)
 
-## To run a community Stellar Core + Horizon Docker container:
-
-```
-docker run -it \
-    --rm \
-    --name horizon-integrationnet \
-    -p 8000:8000 \
-    zulucrypto/stellar-integration-test-network
-```
-Credit to zulucrypto. See the repo [here](https://github.com/zulucrypto/docker-stellar-integration-test-network)
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
-
-## Development server
+## Angular Development
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 

@@ -6,16 +6,24 @@ There is a npm script to run an 'ephemeral' Stellar-core and Horizon instance lo
 
 First, to set everything up:
 
-1) Make sure you have Node and NPM installed
-2) Run ```npm install```
- - This will install node modules used for the client application
-3) Make sure you have Docker installed and running
+1) Make sure you have Node and NPM installed  
+2) Run ```npm install```  
+ - This will install node modules used for the client application  
+3) Make sure you have Docker installed and running  
 
-4) Run the docker container and client app
+4a) Run the docker container in ephemeral mode:  
 
-    a) Run ```chmod +x ./scripts/test-docker.sh``` to set permission to run the test docker script
-    b) Run ```npm run stellar-docker``` to run the docker container
-    c) Run ```npm start``` in a separate session to start the client app
+    4a.1) Run ```chmod +x ./scripts/init-ephemeral-network.sh``` to set permissions on the file running the docker script  
+    4a.2) Run ```npm run stellar-ephemeral``` to run the docker container  
+
+4b) Run the Docker container in persistent mode:  
+    4b.1) Update the path in /scripts/init-persistent-network.sh to your local directory
+    4b.2) Run ```chmod +x ./scripts/init-peristent-network.sh``` to set permissions on the file running the docker script  
+    4b.3) Run ```npm run stellar-persistent``` to initialize the docker container  
+    4b.4) Go through the interactive steps. Then, quit the session.
+    4b.5) Restart the service with another ```npm run stellar-persistent```
+
+5) Run ```npm start``` in a separate session to start the client app  
 
 
 # Development

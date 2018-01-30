@@ -9,8 +9,8 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "stellar-docker": "./scripts/test-docker.sh",
-        "ephemeral": "./scripts/init-ephemeral-network.sh"
+        "stellar-ephemeral": "./scripts/init-ephemeral-network.sh",
+        "stellar-persistent": "./scripts/init-persistent-network.sh"
     },
     "private": true,
     "dependencies": {

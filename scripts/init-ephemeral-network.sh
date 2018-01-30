@@ -2,7 +2,7 @@
 
 # WIP
 
-ng serve & docker run -it \
+docker run -it \
     --rm \
     --name horizon-integrationnet \
     -p 8000:8000 \

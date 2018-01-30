@@ -17,8 +17,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-// TODO: Fix tests disconnecting
-xdescribe('HelloAdminComponent', () => {
+describe('HelloAdminComponent', () => {
   /**
    * Mocks / helpers used accross all tests
    */
@@ -38,9 +37,9 @@ xdescribe('HelloAdminComponent', () => {
      * Now just used to generate an ephemeral account..
      * Could also be used to create other new accounts, etc.
      */
-    mockAccountGenerator = jasmine.createSpyObj('AccountGeneratorService', ['generateAccount']);
+    mockAccountGenerator = jasmine.createSpyObj('AccountGeneratorService', ['generateKeypair']);
     mockGeneratedKeypair = { publicKey: 'hi!', privateKey: 'shh!' };
-    mockAccountGenerator.generateAccount.and.returnValue(mockGeneratedKeypair);
+    mockAccountGenerator.generateKeypair.and.returnValue(mockGeneratedKeypair);
 
     /**
      * Mocks for the FriendBotService
@@ -94,7 +93,7 @@ xdescribe('HelloAdminComponent', () => {
     describe('with an ephemeral network', () => {
       describe('when creating an keyPair', () => {
         it('should call the Stellar account generator service', () => {
-          expect(mockAccountGenerator.generateAccount).toHaveBeenCalled();
+          expect(mockAccountGenerator.generateKeypair).toHaveBeenCalled();
         });
         it('should store the account keypair', () => {
           expect(component.keypair).toBe(mockGeneratedKeypair);

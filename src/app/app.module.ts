@@ -1,3 +1,4 @@
+import { RoutingModule } from './routing/routing.module';
 import { AppComponent } from './app.component';
 import { HelloAdminComponent } from './hello-admin/hello-admin.component';
 import { ServicesModule } from './services/services.module';
@@ -7,7 +8,7 @@ import { environment } from './../environments/environment';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,8 @@ import { NgModule } from '@angular/core';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
+    RoutingModule,
     ServicesModule,
     SharedModule
   ],

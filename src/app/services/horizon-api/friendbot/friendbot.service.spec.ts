@@ -1,5 +1,5 @@
 import { FriendbotService } from './friendbot.service';
-import { HorizonApiService } from './../horizon-api/horizon-api.service';
+import { HorizonApiService } from '../horizon-api.service';
 
 import { Subject } from 'rxjs/Subject';
 import { TestBed, inject } from '@angular/core/testing';
@@ -29,8 +29,9 @@ describe('FriendbotService', () => {
   }));
 
   describe('requestFunds', () => {
-    const mockAccountPublicKey = 'Hi!!';
+    const mockAccountPublicKey = 'GXX';
     let mockResponse, mockResult;
+
     beforeEach(() => {
       friendbotService.requestFunds(mockAccountPublicKey).subscribe((r) => {
         mockResult = r;
@@ -38,11 +39,13 @@ describe('FriendbotService', () => {
       mockResponse = {};
       mockRequest.next(mockResponse);
     });
+
     describe('sending a .post reqest to horizon', () => {
       it('should call with the proper params', () => {
         expect(mockHorizonApiService.post).toHaveBeenCalledWith(`/friendbot/?addr=${mockAccountPublicKey}`);
       });
     });
+
     it('should return the request\'s response', () => {
       expect(mockResult).toBe(mockResponse);
     });

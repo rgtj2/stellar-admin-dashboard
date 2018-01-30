@@ -1,5 +1,6 @@
+import { StellarAccountGlimpseComponent } from './stellar-accounts/stellar-account-glimpse/stellar-account-glimpse.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
-import { AccountGlimpseComponent } from './accounts/account-glimpse/account-glimpse.component';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -9,11 +10,11 @@ import { CommonModule } from '@angular/common';
   ],
   declarations: [
     TransactionListComponent,
-    AccountGlimpseComponent
+    StellarAccountGlimpseComponent
   ],
   exports: [
     TransactionListComponent,
-    AccountGlimpseComponent
+    StellarAccountGlimpseComponent
   ]
 })
 export class SharedModule { }

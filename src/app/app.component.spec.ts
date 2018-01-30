@@ -1,4 +1,4 @@
-import { TestComponentHandle } from './utilties/test-helpers/test-component-handle/test-component-handle';
+import { TestComponentHandle } from './utilties/testing/test-component-handle/test-component-handle';
 import { AppComponent } from './app.component';
 import { NetworkEnvironmentService } from './services/network-environment/network-environment.service';
 

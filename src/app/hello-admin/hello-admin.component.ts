@@ -1,10 +1,12 @@
-import { Account } from '../shared/models/account';
-import { AccountGeneratorService } from '../services/accounts/account-generator/account-generator.service';
-import { FriendbotService } from '../services/friendbot/friendbot.service';
+import { StellarAccountKeypair } from './../shared/models/stellar-account/stellar-account-keypair';
+
+import { FriendbotService } from '../services/horizon-api/friendbot/friendbot.service';
 import { HorizonApiService } from '../services/horizon-api/horizon-api.service';
 import { NetworkEnvironmentService } from './../services/network-environment/network-environment.service';
+import { StellarAccountGeneratorService } from '../services/stellar-account/stellar-account-generator/stellar-account-generator.service';
 
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 /**
  * HelloAdminComponent
@@ -20,13 +22,14 @@ import { Component, OnInit, Inject } from '@angular/core';
 })
 export class HelloAdminComponent implements OnInit {
   public adminFundState: 'unfunded' | 'funded';
-  public adminAccount: Account;
+  public keypair: StellarAccountKeypair;
   public allowFriendbot: boolean;
   public requestState: 'ready' | 'waiting' | 'complete' | 'error';
 
   constructor(private friendbot: FriendbotService,
-              private accountGenerator: AccountGeneratorService,
-              private networkEnvironment: NetworkEnvironmentService) { }
+              private accountGenerator: StellarAccountGeneratorService,
+              private networkEnvironment: NetworkEnvironmentService,
+              private router: Router) { }
 
   ngOnInit() {
     this.allowFriendbot = this.networkEnvironment.horizonConfig.friendbotIsEnabled;
@@ -35,11 +38,12 @@ export class HelloAdminComponent implements OnInit {
 
   public fundAdminAccount(): void {
     this.requestState = 'waiting';
-    this.friendbot.requestFunds(this.adminAccount.publicKey)
+    this.friendbot.requestFunds(this.keypair.publicKey)
       .subscribe((r) => {
         // TODO: Move / improve Response Parsing
         this.requestState = 'complete';
         this.adminFundState = 'funded';
+        this.router.navigate(['accounts', this.keypair.publicKey]);
       }, () => {
         // TODO: Move / improve Error Handling
         this.requestState = 'error';
@@ -50,7 +54,7 @@ export class HelloAdminComponent implements OnInit {
     if (this.networkEnvironment.horizonConfig.networkIsPersistent) {
       throw new Error('TODO: Provide interfaces for existing accounts');
     } else {
-      this.adminAccount = this.accountGenerator.generateAccount();
+      this.keypair = this.accountGenerator.generateKeypair();
       this.adminFundState = 'unfunded';
       this.requestState = 'ready';
     }

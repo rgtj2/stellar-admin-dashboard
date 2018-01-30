@@ -1,4 +1,5 @@
-import { HorizonApiService } from './../horizon-api/horizon-api.service';
+import { HorizonApiService } from '../horizon-api.service';
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 

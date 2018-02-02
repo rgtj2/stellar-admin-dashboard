@@ -23,6 +23,7 @@ export class HelloAdminComponent implements OnInit {
   public adminFundState: 'unfunded' | 'funded';
   public keypair: StellarAccountKeypair;
   public allowFriendbot: boolean;
+  public loadExistingAccount: boolean;
   public requestState: 'ready' | 'waiting' | 'complete' | 'error';
 
   constructor(private friendbot: FriendbotService,
@@ -32,6 +33,7 @@ export class HelloAdminComponent implements OnInit {
 
   ngOnInit() {
     this.allowFriendbot = this.networkEnvironment.horizonConfig.friendbotIsEnabled;
+    this.loadExistingAccount = false;
     this.initializeAdminAccount();
   }
 
@@ -50,7 +52,7 @@ export class HelloAdminComponent implements OnInit {
   }
 
   private initializeAdminAccount(): void {
-    if (this.networkEnvironment.horizonConfig.networkIsPersistent) {
+    if (this.loadExistingAccount) {
       throw new Error('TODO: Provide interfaces for existing accounts');
     } else {
       this.keypair = this.accountGenerator.generateKeypair();

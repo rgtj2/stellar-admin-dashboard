@@ -8,5 +8,4 @@ export class StellarBaseSdkService {
   constructor() {
     this.base = stellarBaseSDK;
   }
-
 }

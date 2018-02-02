@@ -36,10 +36,10 @@ describe('StellarAccountDataResolveService', () => {
         let testRequest;
         beforeEach(() => {
           routeSnapshot = {
-            data: jasmine.createSpyObj('RouteData', ['get'])
+            paramMap: jasmine.createSpyObj('RouteData', ['get'])
           };
           mockPublicKeyParam = 'GXXX';
-          routeSnapshot.data.get.and.returnValue(mockPublicKeyParam);
+          routeSnapshot.paramMap.get.and.returnValue(mockPublicKeyParam);
           testRequest = service.resolve(<ActivatedRouteSnapshot> routeSnapshot);
         });
         describe('calling StellarAccountService', () => {

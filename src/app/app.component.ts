@@ -1,6 +1,12 @@
-import { NetworkEnvironmentService, HorizonNetworkEnvironment } from './services/network-environment/network-environment.service';
+import {
+  NetworkEnvironmentService,
+  HorizonNetworkAlias,
+  HorizonNetworkConfig,
+  HorizonNetworkServer
+} from './services/network-environment/network-environment.service';
 
 import { Component, OnInit } from '@angular/core';
+import { HorizonApiService } from './services/horizon-api/horizon-api.service';
 
 @Component({
   selector: 'app-root',
@@ -8,17 +14,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public networkConfig;
-  constructor(private networkEnvironment: NetworkEnvironmentService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.setNetworkConfig('customTest');
-  }
-
-  setNetworkConfig(env: HorizonNetworkEnvironment): void {
-    this.networkEnvironment.setConfig(env);
-    this.networkConfig = this.networkEnvironment.horizonConfig;
-    console.log(this.networkEnvironment.horizonConfig);
   }
 
 }

@@ -1,11 +1,5 @@
-<div>Hi!</div>
-
-<div [ngSwitch]="adminFundState">
-    <div *ngSwitchCase="'unfunded'">
-        <!-- Request Friendbot funds button.. move this out -->
-        <button *ngIf="allowFriendbot" class="friendbot-request" (click)="fundAdminAccount()">Fund Admin Account</button>
-    </div>
-</div>
+<!-- Request Friendbot funds button.. move this out -->
+<button *ngIf="allowFriendbot" class="friendbot-request" (click)="fundAdminAccount()">Fund Admin Account</button>
 
 <!-- Request state.. move this out -->
 <div class="request-state" [ngSwitch]="requestState">

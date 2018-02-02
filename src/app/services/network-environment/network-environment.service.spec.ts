@@ -8,7 +8,7 @@ import {
   STELLAR_NETWORK_PRODUCTION_PASSPHRASE,
   STELLAR_NETWORK_TEST_PASSPHRASE
 } from './../injection-tokens';
-import { NetworkEnvironmentService } from './network-environment.service';
+import { NetworkEnvironmentService, HorizonNetworkServer } from './network-environment.service';
 
 import { TestBed, inject } from '@angular/core/testing';
 
@@ -44,60 +44,66 @@ describe('NetworkEnvironmentService', () => {
   }));
 
   describe('.horizonConfig / .setHorizonConfig', () => {
+    let config;
     describe('when setting the custom test environment', () => {
       beforeEach(() => {
         service.setConfig('customTest');
+        config = service.horizonConfig;
       });
       it('should have the proper url', () => {
-        expect(service.horizonConfig.url).toBe(mockCustomHorizonTestURL);
+        expect(config.url).toBe(mockCustomHorizonTestURL);
       });
       it('should have friendbot enabled', () => {
-        expect(service.horizonConfig.friendbotIsEnabled).toBe(true);
+        expect(config.friendbotIsEnabled).toBe(true);
       });
       it('should have the networkPassphrase property', () => {
-        expect(service.horizonConfig.networkPassphrase).toBe(customNetworkTestPassphrase);
+        expect(config.networkPassphrase).toBe(customNetworkTestPassphrase);
       });
     });
     describe('when setting the custom production environment', () => {
+
       beforeEach(() => {
         service.setConfig('customProduction');
+        config = service.horizonConfig;
       });
       it('should have the proper url', () => {
-        expect(service.horizonConfig.url).toBe(mockCustomHorizonProductionURL);
+        expect(config.url).toBe(mockCustomHorizonProductionURL);
       });
       it('should have friendbot disabled', () => {
-        expect(service.horizonConfig.friendbotIsEnabled).toBe(false);
+        expect(config.friendbotIsEnabled).toBe(false);
       });
       it('should have the networkPassphrase property', () => {
-        expect(service.horizonConfig.networkPassphrase).toBe(customNetworkProductionPassphrase);
+        expect(config.networkPassphrase).toBe(customNetworkProductionPassphrase);
       });
     });
     describe('when setting the Stellar test environment', () => {
       beforeEach(() => {
         service.setConfig('stellarTest');
+        config = service.horizonConfig;
       });
       it('should have the proper url', () => {
-        expect(service.horizonConfig.url).toBe(mockStellarHorizonTestURL);
+        expect(config.url).toBe(mockStellarHorizonTestURL);
       });
       it('should have friendbot enabled', () => {
-        expect(service.horizonConfig.friendbotIsEnabled).toBe(true);
+        expect(config.friendbotIsEnabled).toBe(true);
       });
       it('should have the networkPassphrase property', () => {
-        expect(service.horizonConfig.networkPassphrase).toBe(stellarNetworkTestPassphrase);
+        expect(config.networkPassphrase).toBe(stellarNetworkTestPassphrase);
       });
     });
     describe('when setting the Stellar production environment', () => {
       beforeEach(() => {
         service.setConfig('stellarProduction');
+        config = service.horizonConfig;
       });
       it('should have the proper url', () => {
-        expect(service.horizonConfig.url).toBe(mockStellarHorizonProductionURL);
+        expect(config.url).toBe(mockStellarHorizonProductionURL);
       });
       it('should have friendbot disabled', () => {
-        expect(service.horizonConfig.friendbotIsEnabled).toBe(false);
+        expect(config.friendbotIsEnabled).toBe(false);
       });
       it('should have the networkPassphrase property', () => {
-        expect(service.horizonConfig.networkPassphrase).toBe(stellarNetworkProductionPassphrase);
+        expect(config.networkPassphrase).toBe(stellarNetworkProductionPassphrase);
       });
     });
   });

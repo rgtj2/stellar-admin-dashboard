@@ -1,3 +1,5 @@
+import { HorizonNetworkConfig } from './network-environment.service';
+import { HorizonApiService } from './../horizon-api/horizon-api.service';
 import { HorizonProductionServer } from './../../shared/models/horizon-server/horizon-production-server';
 import { HorizonTestServer } from './../../shared/models/horizon-server/horizon-test-server';
 import {
@@ -13,14 +15,17 @@ import {
 
 import { Injectable, Inject } from '@angular/core';
 import { StellarBaseSdkService } from '../stellar-sdk/stellar-base-sdk.service';
+import { Subject } from 'rxjs/Subject';
 
-export type HorizonNetworkEnvironment = 'customTest' | 'customProduction' | 'stellarTest' | 'stellarProduction';
-type HorizonNetworkConfig = HorizonProductionServer | HorizonTestServer;
+export type HorizonNetworkAlias = 'customTest' | 'customProduction' | 'stellarTest' | 'stellarProduction';
+export type HorizonNetworkServer = HorizonProductionServer | HorizonTestServer;
+export type HorizonNetworkConfig = HorizonNetworkServer | 'NetworkConfigError';
 
 @Injectable()
 export class NetworkEnvironmentService {
   private _currentHorizonConfig: HorizonNetworkConfig;
   private _testConfig: HorizonTestServer;
+  public onNetworkChange: Subject<HorizonNetworkConfig>;
 
   constructor(@Inject(CUSTOM_HORIZON_PRODUCTION_URL) private readonly customHorizonProductionURL: string,
               @Inject(CUSTOM_HORIZON_TEST_URL) private readonly customHorizonTestURL: string,
@@ -29,14 +34,16 @@ export class NetworkEnvironmentService {
               @Inject(STELLAR_HORIZON_PRODUCTION_URL) private readonly stellarHorizonProductionURL: string,
               @Inject(STELLAR_HORIZON_TEST_URL) private readonly stellarHorizonTestURL: string,
               @Inject(STELLAR_NETWORK_PRODUCTION_PASSPHRASE) private readonly stellarNetworkProductionPassphrase: string,
-              @Inject(STELLAR_NETWORK_TEST_PASSPHRASE) private readonly stellarNetworkTestPassphrase: string) {}
+              @Inject(STELLAR_NETWORK_TEST_PASSPHRASE) private readonly stellarNetworkTestPassphrase: string) {
+    this.onNetworkChange = new Subject();
+  }
 
   public get horizonConfig(): HorizonNetworkConfig {
     return this._currentHorizonConfig;
   }
 
   // TODO: Use a setter here, update jasmine, and test with .spyOnProperty
-  public setConfig(env: HorizonNetworkEnvironment): void {
+  public setConfig(env: HorizonNetworkAlias): void {
     if (env === 'customProduction') {
       this._currentHorizonConfig = this.customHorizonProductionServer;
     } else if (env === 'customTest') {
@@ -46,8 +53,11 @@ export class NetworkEnvironmentService {
     } else if (env === 'stellarTest') {
       this._currentHorizonConfig = this.stellarHorizonTestServer;
     } else {
-      throw new Error('Incorrect Network Configuration');
+      console.warn(`Network Configuration for environnment alias '${env}' is undefined`);
+      this._currentHorizonConfig = 'NetworkConfigError';
     }
+    console.log(this._currentHorizonConfig);
+    this.onNetworkChange.next(this._currentHorizonConfig);
   }
 
   private get customHorizonProductionServer(): HorizonProductionServer {

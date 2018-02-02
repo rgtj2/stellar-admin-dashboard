@@ -1,3 +1,5 @@
+import { HorizonApiService } from './../services/horizon-api/horizon-api.service';
+import { HorizonTestServer } from './../shared/models/horizon-server/horizon-test-server';
 /**
  * App-related services / components / etc
  */
@@ -27,6 +29,7 @@ describe('HelloAdminComponent', () => {
   let mockFriendbot, mockFriendbotRequest: Subject<any>;
   let mockNetworkEnvironment;
   let mockRouter;
+  let mockHorizonApi, mockHorizonRequest;
 
   /**
    * Test Setup
@@ -52,10 +55,16 @@ describe('HelloAdminComponent', () => {
      * Mocks for NetworkEnvironmentService
      */
     mockNetworkEnvironment = {
-      horizonConfig: {
-        friendbotIsEnabled: true, networkIsPersistent: false
-      }
+      horizonConfig: new HorizonTestServer('test.url', 'passphrase'),
+      onNetworkChange: new Subject()
     };
+
+    /**
+     * Mocks for HorizonApiService
+     */
+    mockHorizonApi = jasmine.createSpyObj('HorizonApi', ['get']);
+    mockHorizonRequest = new Subject();
+    mockHorizonApi.get.and.returnValue(mockHorizonRequest);
 
     /**
      * Mock Router
@@ -69,7 +78,8 @@ describe('HelloAdminComponent', () => {
         {provide: StellarAccountGeneratorService, useValue: mockAccountGenerator},
         {provide: FriendbotService, useValue: mockFriendbot},
         {provide: NetworkEnvironmentService, useValue: mockNetworkEnvironment},
-        {provide: Router, useValue: mockRouter}
+        {provide: Router, useValue: mockRouter},
+        {provide: HorizonApiService, useValue: mockHorizonApi}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -160,6 +170,10 @@ describe('HelloAdminComponent', () => {
    * Test the template and its interactions
    */
   describe('template', () => {
+    beforeEach(() => {
+      mockHorizonRequest.next({});
+      handle.detectChanges();
+    });
     describe('when the admin account is unfunded', () => {
       describe('when the friendbot is enabled', () => {
         describe('with a request funds button', () => {

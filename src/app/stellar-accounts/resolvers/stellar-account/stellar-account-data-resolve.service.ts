@@ -11,7 +11,7 @@ export class StellarAccountDataResolveService implements Resolve<StellarAccountD
   constructor(private accountService: StellarAccountService) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<StellarAccountData> {
-    const publicKey = route.data.get('publicKey');
+    const publicKey = route.paramMap.get('publicKey');
     // TODO: Validate shape of public key + handle errors
     return this.accountService.byKey(publicKey);
   }

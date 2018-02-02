@@ -9,6 +9,7 @@ import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { StellarAccountsModule } from './stellar-accounts/stellar-accounts.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     RoutingModule,
     ServicesModule,
-    SharedModule
+    SharedModule,
+    StellarAccountsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

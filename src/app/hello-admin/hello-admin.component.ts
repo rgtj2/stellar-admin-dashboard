@@ -1,3 +1,7 @@
+import { LoginService } from './../services/auth/login/login.service';
+import { AccountFileDownloadService } from './../services/auth/account-file/account-file-download.service';
+import { AccountFile } from './../services/auth/account-file/account-file';
+import { AccountMaster } from './../services/auth/account-master';
 import { HorizonProductionServer } from './../shared/models/horizon-server/horizon-production-server';
 import { HorizonTestServer } from './../shared/models/horizon-server/horizon-test-server';
 import { FriendbotService } from '../services/horizon-api/friendbot/friendbot.service';
@@ -31,11 +35,14 @@ export class HelloAdminComponent implements OnInit {
   public allowFriendbot: boolean;
   public loadExistingAccount: boolean;
   public requestState: 'ready' | 'waiting' | 'complete' | 'error';
+  public testEncryptedData: Blob;
 
   constructor(private friendbot: FriendbotService,
               private accountGenerator: StellarAccountGeneratorService,
               private networkEnvironment: NetworkEnvironmentService,
               private horizonApi: HorizonApiService,
+              private accountFileDownloader: AccountFileDownloadService,
+              private login: LoginService,
               private router: Router) { }
 
   ngOnInit() {
@@ -45,6 +52,31 @@ export class HelloAdminComponent implements OnInit {
     this.networkEnvironment.onNetworkChange.subscribe((n) => {
       this.initializeNetworkStatus();
     });
+  }
+
+  public downloadAccountMasterFile(): void {
+    const networkConfig = <HorizonNetworkServer> this.networkEnvironment.horizonConfig;
+    const testAccountFile = new AccountFile(
+      [{
+        alias: 'test',
+        networkConfig: {
+          url: networkConfig.url,
+          passphrase: networkConfig.networkPassphrase
+        },
+        stellarAccountConfig: this.keypair,
+        twoFactorConfig: null
+      }], 'test'
+    );
+    const testAccountMaster: AccountMaster = new AccountMaster(testAccountFile);
+    this.testEncryptedData = this.accountFileDownloader.downloadEncryptedFile('test', testAccountMaster);
+  }
+
+  public readAccountMasterFile(): void {
+    const networkConfig = <HorizonNetworkServer> this.networkEnvironment.horizonConfig;
+    this.login.loginWithFileAndPassword(this.testEncryptedData, 'test', 'test', networkConfig)
+      .subscribe((v) => {
+        console.log(v);
+      });
   }
 
   // TODO: Move this out

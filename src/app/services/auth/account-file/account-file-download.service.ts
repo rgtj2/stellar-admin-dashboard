@@ -8,11 +8,11 @@ export class AccountFileDownloadService {
 
   constructor(private accountFileCreator: AccountFileCreatorService) { }
 
-  downloadEncryptedFile(password: string, accountMaster: AccountMaster): Blob {
-    const encrypted = this.accountFileCreator.encryptAccountMaster(password, accountMaster);
-    const blob = new Blob([encrypted], {type: 'text/plain;charset=utf-8'});
-    FileSaver.saveAs(blob, `samaf-${new Date().toISOString()}.txt`);
-    return blob;
+  downloadEncryptedFile(password: string, accountMaster: AccountMaster, skipDownload: boolean = false): Blob {
+    const encryptedBlob = this.accountFileCreator.encryptAccountMasterFile(password, accountMaster);
+    if (skipDownload) { return encryptedBlob; }
+    FileSaver.saveAs(encryptedBlob, `samaf-${new Date().toISOString()}.txt`);
+    return encryptedBlob;
   }
 
 }

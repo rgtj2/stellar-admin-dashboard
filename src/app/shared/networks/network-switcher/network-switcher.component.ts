@@ -17,7 +17,6 @@ export class NetworkSwitcherComponent implements OnInit {
   constructor(private networkEnvironment: NetworkEnvironmentService) { }
 
   ngOnInit() {
-    console.log(this);
     this.setNetworkConfig('customTest');
   }
 

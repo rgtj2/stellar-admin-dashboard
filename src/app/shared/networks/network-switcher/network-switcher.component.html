@@ -1,15 +1,11 @@
-<div>
-    <h5>Select Network</h5>
-    <div>
-        <a (click)="setNetworkConfig('customTest')">Custom Network (TEST)</a>
-    </div>
-    <div>
-        <a (click)="setNetworkConfig('customProduction')">Custom Network (PRODUCTION)</a>
-    </div>
-    <div>
-        <a (click)="setNetworkConfig('stellarTest')">Stellar Network (TEST)</a>
-    </div>
-    <div>
-        <a (click)="setNetworkConfig('stellarProduction')">Stellar Network (PRODUCTION)</a>
+<div class="sad-network-switcher">
+    <div class="sad-network-switcher-title">Select Network</div>
+    <div class="sad-network-switcher-content">
+        <div class="sad-network-switcher-options">
+            <a (click)="setNetworkConfig('customTest')">Custom Network (TEST)</a>
+            <a (click)="setNetworkConfig('customProduction')">Custom Network (PRODUCTION)</a>
+            <a (click)="setNetworkConfig('stellarTest')">Stellar Network (TEST)</a>
+            <a (click)="setNetworkConfig('stellarProduction')">Stellar Network (PRODUCTION)</a>
+        </div>
     </div>
 </div>

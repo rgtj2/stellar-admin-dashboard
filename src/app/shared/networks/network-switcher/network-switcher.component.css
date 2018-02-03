@@ -1,0 +1,14 @@
+.sad-network-switcher,
+.sad-network-switcher-options {
+    display: flex;
+}
+
+.sad-network-switcher-title {
+    font-weight: 600;
+}
+
+.sad-network-switcher-title,
+.sad-network-switcher-options>a {
+    padding: .5em 1em;
+    cursor: pointer;
+}

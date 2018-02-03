@@ -31,10 +31,8 @@ export class LoginService {
                            accountFilePassword: string,
                            accountAlias: string,
                            network: HorizonNetworkServer): Observable<AccountMaster|LoginError> {
-    console.log(rawAccountFile);
     return this.accountFileLoader.loadFile(accountFilePassword, rawAccountFile).pipe(
       switchMap((accountFile: AccountFile) => {
-        console.log(accountFile);
         return this.authorize(accountFile, accountFilePassword, accountAlias, network);
       })
     );

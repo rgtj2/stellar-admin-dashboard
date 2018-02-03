@@ -56,7 +56,6 @@ export class NetworkEnvironmentService {
       console.warn(`Network Configuration for environnment alias '${env}' is undefined`);
       this._currentHorizonConfig = 'NetworkConfigError';
     }
-    console.log(this._currentHorizonConfig);
     this.onNetworkChange.next(this._currentHorizonConfig);
   }
 

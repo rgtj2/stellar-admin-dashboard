@@ -1,4 +1,7 @@
-<div>
+<div class="sad-network-glimpse">
     <h5>Current Network Config</h5>
-    <div>{{networkConfig | json}}</div>
+    <div *ngIf="networkIsValid && networkServer; else unreachable">
+        {{networkServer.isReachable ? 'Reachable' : 'Unreachable'}}
+    </div>
+    <ng-template #unreachable>Unreachable</ng-template>
 </div>

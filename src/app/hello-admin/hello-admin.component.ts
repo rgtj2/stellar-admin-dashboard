@@ -31,8 +31,9 @@ import { Router } from '@angular/router';
 })
 export class HelloAdminComponent implements OnInit {
   public adminFundState: 'unfunded' | 'funded';
-  public keypair: StellarAccountKeypair;
   public allowFriendbot: boolean;
+  public authState: 'authorized' | 'unauthorized';
+  public stellarKeypair: StellarAccountKeypair;
   public loadExistingAccount: boolean;
   public requestState: 'ready' | 'waiting' | 'complete' | 'error';
   public testEncryptedData: Blob;
@@ -46,7 +47,9 @@ export class HelloAdminComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.loadExistingAccount = false;
+    this.loadExistingAccount = true;
+    this.allowFriendbot = false;
+    this.authState = 'unauthorized';
     this.initializeAdminAccount();
     this.initializeNetworkStatus();
     this.networkEnvironment.onNetworkChange.subscribe((n) => {
@@ -54,6 +57,7 @@ export class HelloAdminComponent implements OnInit {
     });
   }
 
+  // TODO: Move this out
   public downloadAccountMasterFile(): void {
     const networkConfig = <HorizonNetworkServer> this.networkEnvironment.horizonConfig;
     const testAccountFile = new AccountFile(
@@ -63,7 +67,7 @@ export class HelloAdminComponent implements OnInit {
           url: networkConfig.url,
           passphrase: networkConfig.networkPassphrase
         },
-        stellarAccountConfig: this.keypair,
+        stellarAccountConfig: this.stellarKeypair,
         twoFactorConfig: null
       }], 'test'
     );
@@ -71,24 +75,43 @@ export class HelloAdminComponent implements OnInit {
     this.testEncryptedData = this.accountFileDownloader.downloadEncryptedFile('test', testAccountMaster);
   }
 
-  public readAccountMasterFile(): void {
+  // TODO: Move this out
+  public onFileSelect($event): void {
+    const blob = $event.srcElement.files[0];
+    this.readAccountMasterFile(blob);
+  }
+
+  // TODO: Move this out
+  private readAccountMasterFile(blob: File): void {
     const networkConfig = <HorizonNetworkServer> this.networkEnvironment.horizonConfig;
-    this.login.loginWithFileAndPassword(this.testEncryptedData, 'test', 'test', networkConfig)
+    this.login.loginWithFileAndPassword(blob, 'test', 'test', networkConfig)
       .subscribe((v) => {
-        console.log(v);
-      });
+        if (v instanceof AccountMaster) {
+          const accountFile = v.accountFile;
+          // TODO: Handle initializing w/ multiple accounts
+          const stellarAccount = accountFile.stellarAccounts[0].stellarAccountConfig;
+          // TODO: Only pass around encrypted keypairs..
+          this.stellarKeypair = new StellarAccountKeypair(stellarAccount.publicKey, stellarAccount.secret);
+          this.authState = 'authorized';
+        } else {
+          // TODO: Helpful error messages, etc
+          this.authState = 'unauthorized';
+        }
+      }, (e) => {
+        this.authState = 'unauthorized';
+    });
   }
 
   // TODO: Move this out
   public fundAdminAccount(): void {
     this.requestState = 'waiting';
-    this.friendbot.requestFunds(this.keypair.publicKey)
+    this.friendbot.requestFunds(this.stellarKeypair.publicKey)
       .subscribe((r) => {
         // TODO: Move / improve Response Parsing
         this.requestState = 'complete';
         this.adminFundState = 'funded';
         // TODO: Move this somewhere else
-        this.router.navigate(['accounts', this.keypair.publicKey]);
+        this.router.navigate(['accounts', this.stellarKeypair.publicKey]);
       }, () => {
         // TODO: Move / improve Error Handling
         this.requestState = 'error';
@@ -98,27 +121,29 @@ export class HelloAdminComponent implements OnInit {
   // TODO: Move this out
   private initializeAdminAccount(): void {
     if (this.loadExistingAccount) {
-      throw new Error('TODO: Provide interfaces for existing accounts');
+      this.authState = 'unauthorized';
     } else {
-      this.keypair = this.accountGenerator.generateKeypair();
+      this.authState = 'authorized';
+      this.stellarKeypair = this.accountGenerator.generateKeypair();
       this.adminFundState = 'unfunded';
-      this.requestState = 'ready';
     }
   }
 
+  // TODO: Move this out
   private initializeNetworkStatus(): void {
     if (this.configIsValid(this.networkEnvironment.horizonConfig)) {
       this.checkNetworkStatus(this.networkEnvironment.horizonConfig);
     } else {
-      this.allowFriendbot = false;
       this.requestState = 'error';
     }
   }
 
+  // TODO: Move this out
   private configIsValid(config: HorizonNetworkConfig): config is HorizonNetworkServer {
     return (config instanceof HorizonProductionServer) || (config instanceof HorizonTestServer);
   }
 
+  // TODO: Move this out
   private checkNetworkStatus(server: HorizonNetworkServer): void {
     this.horizonApi.get('/').subscribe((r) => {
       server.isReachable = true;
@@ -127,6 +152,8 @@ export class HelloAdminComponent implements OnInit {
     }, (e) => {
       server.isReachable = false;
       this.requestState = 'error';
+      this.allowFriendbot = false;
     });
+
   }
 }

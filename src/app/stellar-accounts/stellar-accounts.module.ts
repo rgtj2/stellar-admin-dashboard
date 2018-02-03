@@ -3,12 +3,10 @@ import { StellarAccountsRoutingModule } from './routing/stellar-accounts-routing
 
 import { CommonModule } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    // SharedModule,
     StellarAccountsRoutingModule
   ],
   declarations: [

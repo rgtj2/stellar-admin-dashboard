@@ -106,7 +106,7 @@ describe('HelloAdminComponent', () => {
           expect(mockAccountGenerator.generateKeypair).toHaveBeenCalled();
         });
         it('should store the account keypair', () => {
-          expect(component.keypair).toBe(mockGeneratedKeypair);
+          expect(component.stellarKeypair).toBe(mockGeneratedKeypair);
         });
         it('should set .adminFundState', () => {
           expect(component.adminFundState).toBe('unfunded');
@@ -133,7 +133,7 @@ describe('HelloAdminComponent', () => {
       });
       describe('when calling the FriendBotService,', () => {
         it('should call .requestFunds', () => {
-          expect(mockFriendbot.requestFunds).toHaveBeenCalledWith(component.keypair.publicKey);
+          expect(mockFriendbot.requestFunds).toHaveBeenCalledWith(component.stellarKeypair.publicKey);
         });
       });
     });
@@ -211,7 +211,7 @@ describe('HelloAdminComponent', () => {
                 accountGlimpse = handle.debugElement.query(By.css('app-account-glimpse'));
               });
               it('should navigate to the account detail route', () => {
-                expect(mockRouter.navigate).toHaveBeenCalledWith(['accounts', component.keypair.publicKey]);
+                expect(mockRouter.navigate).toHaveBeenCalledWith(['accounts', component.stellarKeypair.publicKey]);
               });
             });
             describe('with a failed response', () => {

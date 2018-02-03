@@ -1,7 +1,6 @@
 export class AccountFile {
   constructor(public readonly stellarAccounts: AccountFileAccountMasterConfig[],
               public readonly accountFilePassword: string) {
-    console.log(this);
   }
 }
 

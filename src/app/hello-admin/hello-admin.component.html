@@ -7,6 +7,20 @@
     <div *ngSwitchCase="'error'">Something went wrong..</div>
 </div>
 
-<a (click)="downloadAccountMasterFile()">Download Account Master File</a>
+<hr>
 
-<a (click)="readAccountMasterFile()">Read Account Master File</a>
+<!-- Login Form.. move this out -->
+<div [ngSwitch]="authState">
+    <div *ngSwitchCase="'unauthorized'">
+        <h4>Hi! What yould you like to do?</h4>
+        <h5>Create Account</h5>
+        <div>TODO: Account Create Form..</div>
+        <h5>Import Account File</h5>
+        <input type="file" (change)="onFileSelect($event)" />
+    </div>
+    <div *ngSwitchCase="'authorized'">
+        <h4>Welcome!</h4>
+        <div>TODO: Settings page</div>
+        <button (click)="downloadAccountMasterFile()">Download Account Master File</button>
+    </div>
+</div>

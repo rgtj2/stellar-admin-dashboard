@@ -26,9 +26,9 @@ export class FileReaderReferenceService {
 
   private onFileReadProgress($event): void {
     if ($event.lengthComputable) {
+      // TODO: Progress indicator, or kill this..
       const loaded = ($event.loaded / $event.total);
       if (loaded < 1) {
-        console.log('loading', loaded);
       }
     }
   }
@@ -40,7 +40,6 @@ export class FileReaderReferenceService {
   private onFileReadError($event): void {
     if ($event.target.error.name === 'NotReadableError') {
       // TODO: Better error handling
-      console.log('FileReadError');
       this._fileLoadedSubject.next('FileReadError');
     }
     this.clearSubject();

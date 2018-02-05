@@ -1,4 +1,4 @@
-import { HorizonNetworkConfig } from './network-environment.service';
+import { HorizonNetworkConfig, HorizonNetworkAlias } from './network-environment.service';
 import { HorizonApiService } from './../horizon-api/horizon-api.service';
 import { HorizonProductionServer } from './../../shared/models/horizon-server/horizon-production-server';
 import { HorizonTestServer } from './../../shared/models/horizon-server/horizon-test-server';
@@ -16,6 +16,7 @@ import {
 import { Injectable, Inject } from '@angular/core';
 import { StellarBaseSdkService } from '../stellar-sdk/stellar-base-sdk.service';
 import { Subject } from 'rxjs/Subject';
+import { HorizonServer } from '../../shared/models/horizon-server/horizon-server';
 
 export type HorizonNetworkAlias = 'customTest' | 'customProduction' | 'stellarTest' | 'stellarProduction';
 export type HorizonNetworkServer = HorizonProductionServer | HorizonTestServer;
@@ -24,8 +25,6 @@ export type HorizonNetworkConfig = HorizonNetworkServer | 'NetworkConfigError';
 @Injectable()
 export class NetworkEnvironmentService {
   private _currentHorizonConfig: HorizonNetworkConfig;
-  private _testConfig: HorizonTestServer;
-  public onNetworkChange: Subject<HorizonNetworkConfig>;
 
   constructor(@Inject(CUSTOM_HORIZON_PRODUCTION_URL) private readonly customHorizonProductionURL: string,
               @Inject(CUSTOM_HORIZON_TEST_URL) private readonly customHorizonTestURL: string,
@@ -35,28 +34,38 @@ export class NetworkEnvironmentService {
               @Inject(STELLAR_HORIZON_TEST_URL) private readonly stellarHorizonTestURL: string,
               @Inject(STELLAR_NETWORK_PRODUCTION_PASSPHRASE) private readonly stellarNetworkProductionPassphrase: string,
               @Inject(STELLAR_NETWORK_TEST_PASSPHRASE) private readonly stellarNetworkTestPassphrase: string) {
-    this.onNetworkChange = new Subject();
   }
 
   public get horizonConfig(): HorizonNetworkConfig {
     return this._currentHorizonConfig;
   }
 
-  // TODO: Use a setter here, update jasmine, and test with .spyOnProperty
-  public setConfig(env: HorizonNetworkAlias): void {
-    if (env === 'customProduction') {
-      this._currentHorizonConfig = this.customHorizonProductionServer;
-    } else if (env === 'customTest') {
-      this._currentHorizonConfig = this.customHorizonTestServer;
-    } else if (env === 'stellarProduction') {
-      this._currentHorizonConfig = this.stellarHorizonProductionServer;
-    } else if (env === 'stellarTest') {
-      this._currentHorizonConfig = this.stellarHorizonTestServer;
-    } else {
-      console.warn(`Network Configuration for environnment alias '${env}' is undefined`);
-      this._currentHorizonConfig = 'NetworkConfigError';
-    }
-    this.onNetworkChange.next(this._currentHorizonConfig);
+  public enviornmentConfigForAlias(alias: HorizonNetworkAlias): HorizonNetworkConfig {
+    return this.environmentByAliasHash[alias];
+  }
+
+  public setConfigByAlias(alias: HorizonNetworkAlias): HorizonNetworkConfig {
+    const config = this.environmentByAliasHash[alias];
+    this._currentHorizonConfig = config ? config : 'NetworkConfigError';
+    return this._currentHorizonConfig;
+  }
+
+  // public setConfigByPassphrase(passphrase: string): HorizonNetworkConfig {
+  //   const hash = this.environmentByAliasHash;
+  //   const knownConfigs: HorizonServer[] = Object.keys(hash).reduce((p, c) => p.concat(hash[c]), []);
+  //   const forPassphrase = knownConfigs.find((c) => c.networkPassphrase === passphrase);
+  //   console.log('forPassphrase', forPassphrase);
+  //   this._currentHorizonConfig = forPassphrase ? forPassphrase : 'NetworkConfigError';
+  //   return this._currentHorizonConfig;
+  // }
+
+  private get environmentByAliasHash(): {[alias: string]: HorizonNetworkConfig } {
+    return {
+      'customProduction': this.customHorizonProductionServer,
+      'customTest': this.customHorizonTestServer,
+      'stellarProduction': this.stellarHorizonProductionServer,
+      'stellarTest': this.stellarHorizonTestServer
+    };
   }
 
   private get customHorizonProductionServer(): HorizonProductionServer {

@@ -1,0 +1,22 @@
+<div class="sad-login-form">
+    <div class="sad-login-form-title">Login</div>
+
+    <div class="sad-login-form-container">
+        <div *ngIf="loginMethod==='accountFile'; else newAccount" [formGroup]="fileLoginForm">
+            <input placeholder="Account Nickname" formControlName="accountAlias" />
+            <input placeholder="Secret" formControlName="accountFilePassword" />
+            <!-- TODO: ^^ secretMask Directive ^^ -->
+            <input type="file" (change)="onFileSelect($event)" />
+            <a (click)="submitFileForm()">Login</a>
+        </div>
+
+        <ng-template #newAccount>
+            <div [formGroup]="newStellarForm">
+                <input placeholder="Account Nickname" formControlName="accountAlias" />
+                <input placeholder="Secret" formControlName="accountFilePassword" />
+                <!-- TODO: ^^ secretMask Directive ^^ -->
+            </div>
+            <a (click)="submitNewStellarForm()">Login</a>
+        </ng-template>
+    </div>
+</div>

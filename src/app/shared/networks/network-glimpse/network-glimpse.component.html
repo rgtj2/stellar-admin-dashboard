@@ -1,7 +1,5 @@
 <div class="sad-network-glimpse">
-    <h5>Current Network Config</h5>
-    <div *ngIf="networkIsValid && networkServer; else unreachable">
-        {{networkServer.isReachable ? 'Reachable' : 'Unreachable'}}
+    <div [ngClass]="networkState">
+        <i class="fa fa-server"></i>
     </div>
-    <ng-template #unreachable>Unreachable</ng-template>
 </div>

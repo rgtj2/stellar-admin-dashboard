@@ -1,7 +1,7 @@
 import { HorizonApiService } from './services/horizon-api/horizon-api.service';
 import { AppComponent } from './app.component';
 import { NetworkEnvironmentService } from './services/network-environment/network-environment.service';
-import { TestComponentHandle } from './utilties/testing/test-component-handle/test-component-handle';
+import { TestComponentHandle } from './utilities/testing/test-component-handle/test-component-handle';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';

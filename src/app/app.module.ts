@@ -1,3 +1,4 @@
+import { FontawesomeService } from './utilities/fonts/fontawesome.service';
 import { RoutingModule } from './routing/routing.module';
 import { AppComponent } from './app.component';
 import { HelloAdminComponent } from './hello-admin/hello-admin.component';
@@ -9,7 +10,6 @@ import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { StellarAccountsModule } from './stellar-accounts/stellar-accounts.module';
 
 @NgModule({
   declarations: [
@@ -21,10 +21,11 @@ import { StellarAccountsModule } from './stellar-accounts/stellar-accounts.modul
     RouterModule,
     RoutingModule,
     ServicesModule,
-    SharedModule,
-    StellarAccountsModule
+    SharedModule
   ],
-  providers: [],
+  providers: [
+    FontawesomeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

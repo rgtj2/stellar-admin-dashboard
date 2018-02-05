@@ -1,3 +1,4 @@
+import { AppStateService } from './app-state/app-state.service';
 import { TwoFactorService } from './auth/two-factor/two-factor.service';
 import { AccountFileDownloadService } from './auth/account-file/account-file-download.service';
 import { AccountFileCreatorService } from './auth/account-file/account-file-creator.service';
@@ -12,7 +13,6 @@ import { StellarAccountGeneratorService } from './stellar-account/stellar-accoun
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { WindowReferenceService } from './js-reference/window-reference.service';
 import { FileReaderReferenceService } from './js-reference/file-reader-reference.service';
 import { JSCryptoService } from './js-crypto/js-crypto.service';
 import { AccountFileLoaderService } from './auth/account-file/account-file-loader.service';
@@ -31,6 +31,7 @@ import { LoginService } from './auth/login/login.service';
     AccountFileDownloadService,
     AccountFileLoaderService,
     AccountFileReaderService,
+    AppStateService,
     LoginService,
     FileReaderReferenceService,
     JSCryptoService,
@@ -38,8 +39,7 @@ import { LoginService } from './auth/login/login.service';
     StellarAccountService,
     StellarAccountGeneratorService,
     StellarBaseSdkService,
-    TwoFactorService,
-    WindowReferenceService
+    TwoFactorService
   ]
 })
 export class ServicesModule { }

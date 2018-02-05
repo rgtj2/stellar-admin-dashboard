@@ -1,26 +1,24 @@
-<!-- Request Friendbot funds button.. move this out -->
-<button *ngIf="allowFriendbot" class="friendbot-request" (click)="fundAdminAccount()">Fund Admin Account</button>
+<div class="sad-admin-home">
+    <div *ngIf="showLoginLink">
+        <a [routerLink]="['/login']">Login</a>
+    </div>
+    <div *ngIf="showLogoutLink">
+        <a (click)="logout()">Logout</a>
+    </div>
+    <div *ngIf="showSettingsLink">
+        <a [routerLink]="['/settings']">Settings</a>
+    </div>
+    <div *ngIf="showAdminDashboard">
+        Hello Admin!
+        <div *ngFor="let account of accounts">
+            {{account.alias}} - {{account.networkConfig.passphrase}}
+            <a [routerLink]="['/accounts', accountPublicKey(account)]">View Account</a>
+        </div>
+    </div>
+</div>
 
 <!-- Request state.. move this out -->
-<div class="request-state" [ngSwitch]="requestState">
+<!-- <div class="request-state" [ngSwitch]="requestState">
     <div *ngSwitchCase="'waiting'">Requesting funds...</div>
     <div *ngSwitchCase="'error'">Something went wrong..</div>
-</div>
-
-<hr>
-
-<!-- Login Form.. move this out -->
-<div [ngSwitch]="authState">
-    <div *ngSwitchCase="'unauthorized'">
-        <h4>Hi! What yould you like to do?</h4>
-        <h5>Create Account</h5>
-        <div>TODO: Account Create Form..</div>
-        <h5>Import Account File</h5>
-        <input type="file" (change)="onFileSelect($event)" />
-    </div>
-    <div *ngSwitchCase="'authorized'">
-        <h4>Welcome!</h4>
-        <div>TODO: Settings page</div>
-        <button (click)="downloadAccountMasterFile()">Download Account Master File</button>
-    </div>
-</div>
+</div> -->

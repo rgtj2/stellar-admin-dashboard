@@ -1,6 +1,8 @@
+import { Subscription } from 'rxjs/Subscription';
+import { AppStateService, UserState } from './../services/app-state/app-state.service';
 import { LoginService } from './../services/auth/login/login.service';
 import { AccountFileDownloadService } from './../services/auth/account-file/account-file-download.service';
-import { AccountFile } from './../services/auth/account-file/account-file';
+import { AccountFile, AccountFileAccountMasterConfig } from './../services/auth/account-file/account-file';
 import { AccountMaster } from './../services/auth/account-master';
 import { HorizonProductionServer } from './../shared/models/horizon-server/horizon-production-server';
 import { HorizonTestServer } from './../shared/models/horizon-server/horizon-test-server';
@@ -14,8 +16,9 @@ import {
 import { StellarAccountGeneratorService } from '../services/stellar-account/stellar-account-generator/stellar-account-generator.service';
 import { StellarAccountKeypair } from './../shared/models/stellar-account/stellar-account-keypair';
 
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 /**
  * HelloAdminComponent
@@ -27,133 +30,66 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-hello-admin',
   templateUrl: './hello-admin.component.html',
-  styleUrls: ['./hello-admin.component.css']
+  styleUrls: ['./hello-admin.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HelloAdminComponent implements OnInit {
-  public adminFundState: 'unfunded' | 'funded';
-  public allowFriendbot: boolean;
-  public authState: 'authorized' | 'unauthorized';
-  public stellarKeypair: StellarAccountKeypair;
-  public loadExistingAccount: boolean;
-  public requestState: 'ready' | 'waiting' | 'complete' | 'error';
-  public testEncryptedData: Blob;
+export class HelloAdminComponent implements OnInit, OnDestroy {
+  public showLoginLink: boolean;
+  public showLogoutLink: boolean;
+  public showAdminDashboard: boolean;
+  public showSettingsLink: boolean;
+  public accountMaster: AccountMaster;
+  public accounts: AccountFileAccountMasterConfig[];
+  private userUpdates: Subscription;
 
-  constructor(private friendbot: FriendbotService,
-              private accountGenerator: StellarAccountGeneratorService,
-              private networkEnvironment: NetworkEnvironmentService,
-              private horizonApi: HorizonApiService,
-              private accountFileDownloader: AccountFileDownloadService,
-              private login: LoginService,
+  constructor(private appState: AppStateService,
+              private network: NetworkEnvironmentService,
               private router: Router) { }
 
   ngOnInit() {
-    this.loadExistingAccount = true;
-    this.allowFriendbot = false;
-    this.authState = 'unauthorized';
-    this.initializeAdminAccount();
-    this.initializeNetworkStatus();
-    this.networkEnvironment.onNetworkChange.subscribe((n) => {
-      this.initializeNetworkStatus();
+    this.clearState();
+    this.initState(this.appState.userState.value);
+    this.userUpdates = this.appState.userState.subscribe((m) => {
+      console.log('userState!', m);
+      this.initState(m);
     });
   }
 
-  // TODO: Move this out
-  public downloadAccountMasterFile(): void {
-    const networkConfig = <HorizonNetworkServer> this.networkEnvironment.horizonConfig;
-    const testAccountFile = new AccountFile(
-      [{
-        alias: 'test',
-        networkConfig: {
-          url: networkConfig.url,
-          passphrase: networkConfig.networkPassphrase
-        },
-        stellarAccountConfig: this.stellarKeypair,
-        twoFactorConfig: null
-      }], 'test'
-    );
-    const testAccountMaster: AccountMaster = new AccountMaster(testAccountFile);
-    this.testEncryptedData = this.accountFileDownloader.downloadEncryptedFile('test', testAccountMaster);
+  ngOnDestroy() {
+    this.userUpdates.unsubscribe();
   }
 
-  // TODO: Move this out
-  public onFileSelect($event): void {
-    const blob = $event.srcElement.files[0];
-    this.readAccountMasterFile(blob);
+  private clearState(): void {
+    this.showLoginLink = false;
+    this.showLogoutLink = false;
+    this.showAdminDashboard = false;
+    this.showSettingsLink = false;
+    this.accountMaster = null;
+    this.accounts = [];
   }
 
-  // TODO: Move this out
-  private readAccountMasterFile(blob: File): void {
-    const networkConfig = <HorizonNetworkServer> this.networkEnvironment.horizonConfig;
-    this.login.loginWithFileAndPassword(blob, 'test', 'test', networkConfig)
-      .subscribe((v) => {
-        if (v instanceof AccountMaster) {
-          const accountFile = v.accountFile;
-          // TODO: Handle initializing w/ multiple accounts
-          const stellarAccount = accountFile.stellarAccounts[0].stellarAccountConfig;
-          // TODO: Only pass around encrypted keypairs..
-          this.stellarKeypair = new StellarAccountKeypair(stellarAccount.publicKey, stellarAccount.secret);
-          this.authState = 'authorized';
-        } else {
-          // TODO: Helpful error messages, etc
-          this.authState = 'unauthorized';
-        }
-      }, (e) => {
-        this.authState = 'unauthorized';
-    });
-  }
-
-  // TODO: Move this out
-  public fundAdminAccount(): void {
-    this.requestState = 'waiting';
-    this.friendbot.requestFunds(this.stellarKeypair.publicKey)
-      .subscribe((r) => {
-        // TODO: Move / improve Response Parsing
-        this.requestState = 'complete';
-        this.adminFundState = 'funded';
-        // TODO: Move this somewhere else
-        this.router.navigate(['accounts', this.stellarKeypair.publicKey]);
-      }, () => {
-        // TODO: Move / improve Error Handling
-        this.requestState = 'error';
-      });
-  }
-
-  // TODO: Move this out
-  private initializeAdminAccount(): void {
-    if (this.loadExistingAccount) {
-      this.authState = 'unauthorized';
+  private initState(userState: UserState): void {
+    if (userState instanceof AccountMaster) {
+      this.showAdminDashboard = true;
+      this.showLogoutLink = true;
+      this.showSettingsLink = true;
+      this.accountMaster = userState;
+      this.accounts = this.accountMaster.accountFile.stellarAccounts;
     } else {
-      this.authState = 'authorized';
-      this.stellarKeypair = this.accountGenerator.generateKeypair();
-      this.adminFundState = 'unfunded';
+      this.showLoginLink = true;
     }
   }
 
-  // TODO: Move this out
-  private initializeNetworkStatus(): void {
-    if (this.configIsValid(this.networkEnvironment.horizonConfig)) {
-      this.checkNetworkStatus(this.networkEnvironment.horizonConfig);
-    } else {
-      this.requestState = 'error';
-    }
+  public logout(): void {
+    this.appState.authState.next('unauthorized');
+    this.appState.userState.next('none');
+    this.ngOnInit();
   }
 
-  // TODO: Move this out
-  private configIsValid(config: HorizonNetworkConfig): config is HorizonNetworkServer {
-    return (config instanceof HorizonProductionServer) || (config instanceof HorizonTestServer);
+  public accountPublicKey(account: AccountFileAccountMasterConfig): string {
+    return account.stellarAccountConfig.publicKey;
+    // const config = this.network.setConfigByPassphrase(account.networkConfig.passphrase);
+    // this.router.navigate(['/accounts', publicKey]);
   }
 
-  // TODO: Move this out
-  private checkNetworkStatus(server: HorizonNetworkServer): void {
-    this.horizonApi.get('/').subscribe((r) => {
-      server.isReachable = true;
-      this.requestState = 'ready';
-      this.allowFriendbot = server.friendbotIsEnabled;
-    }, (e) => {
-      server.isReachable = false;
-      this.requestState = 'error';
-      this.allowFriendbot = false;
-    });
-
-  }
 }

@@ -9,6 +9,10 @@ export class AccountFileDownloadService {
   constructor(private accountFileCreator: AccountFileCreatorService) { }
 
   downloadEncryptedFile(password: string, accountMaster: AccountMaster, skipDownload: boolean = false): Blob {
+    if (password !== accountMaster.accountFile.accountFilePassword) {
+      // TODO: Better handling
+      return null;
+    }
     const encryptedBlob = this.accountFileCreator.encryptAccountMasterFile(password, accountMaster);
     if (skipDownload) { return encryptedBlob; }
     FileSaver.saveAs(encryptedBlob, `samaf-${new Date().toISOString()}.txt`);

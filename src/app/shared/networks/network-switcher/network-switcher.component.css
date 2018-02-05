@@ -1,14 +1,73 @@
-.sad-network-switcher,
+.sad-network-switcher {
+    max-width: 20em;
+    background-color: #e1e4d5;
+    padding: .5em 1em;
+}
+
+.sad-network-switcher-current {
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+}
+
+.sad-network-switcher-selection,
+.sad-network-switcher-option-display {
+    display: flex;
+    justify-content: space-between;
+}
+
 .sad-network-switcher-options {
     display: flex;
+    flex-direction: column;
+    margin-top: .5em;
 }
 
 .sad-network-switcher-title {
     font-weight: 600;
+    font-size: .75rem;
 }
 
-.sad-network-switcher-title,
-.sad-network-switcher-options>a {
-    padding: .5em 1em;
+.sad-network-switcher-options>a,
+.sad-network-switcher-selection {
     cursor: pointer;
+}
+
+.sad-active-network {
+    color: #4a4a4a;
+    font-weight: 600;
+}
+
+.sad-network-switcher-option-display {
+    padding: .25em;
+    border-bottom: 1px solid #fff;
+}
+
+svg {
+    margin-right: .5em;
+}
+
+.fa-sun {
+    color: #169a01;
+}
+
+.fa-moon {
+    color: #2893e4;
+}
+
+.fa-rocket.test {
+    color: #2893e4;
+}
+
+.fa-rocket.production {
+    color: #169a01;
+}
+
+.sad-network-last-checked {
+    display: flex;
+    font-size: .75em;
+}
+
+app-network-glimpse {
+    margin-left: .5em;
+    font-size: .75em;
 }

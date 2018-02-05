@@ -47,7 +47,7 @@ describe('NetworkEnvironmentService', () => {
     let config;
     describe('when setting the custom test environment', () => {
       beforeEach(() => {
-        service.setConfig('customTest');
+        service.setConfigByAlias('customTest');
         config = service.horizonConfig;
       });
       it('should have the proper url', () => {
@@ -63,7 +63,7 @@ describe('NetworkEnvironmentService', () => {
     describe('when setting the custom production environment', () => {
 
       beforeEach(() => {
-        service.setConfig('customProduction');
+        service.setConfigByAlias('customProduction');
         config = service.horizonConfig;
       });
       it('should have the proper url', () => {
@@ -78,7 +78,7 @@ describe('NetworkEnvironmentService', () => {
     });
     describe('when setting the Stellar test environment', () => {
       beforeEach(() => {
-        service.setConfig('stellarTest');
+        service.setConfigByAlias('stellarTest');
         config = service.horizonConfig;
       });
       it('should have the proper url', () => {
@@ -93,7 +93,7 @@ describe('NetworkEnvironmentService', () => {
     });
     describe('when setting the Stellar production environment', () => {
       beforeEach(() => {
-        service.setConfig('stellarProduction');
+        service.setConfigByAlias('stellarProduction');
         config = service.horizonConfig;
       });
       it('should have the proper url', () => {

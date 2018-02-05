@@ -1,6 +1,6 @@
 import { Resolvers } from '../resolvers/resolvers';
 import { StellarAccountDetailComponent } from './stellar-account-detail.component';
-import { TestComponentHandle } from './../../utilties/testing/test-component-handle/test-component-handle';
+import { TestComponentHandle } from './../../utilities/testing/test-component-handle/test-component-handle';
 
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';

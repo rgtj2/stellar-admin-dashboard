@@ -2,3 +2,11 @@
     display: flex;
     align-items: center;
 }
+
+.disconnected {
+    color: red;
+}
+
+.connected {
+    color: green;
+}

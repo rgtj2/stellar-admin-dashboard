@@ -1,40 +1,28 @@
-import { HorizonTestServer } from './../../models/horizon-server/horizon-test-server';
-import { HorizonNetworkConfig, HorizonNetworkServer } from './../../../services/network-environment/network-environment.service';
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { HorizonProductionServer } from '../../models/horizon-server/horizon-production-server';
+import { AppStateService, NetworkState } from './../../../services/app-state/app-state.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-network-glimpse',
   templateUrl: './network-glimpse.component.html',
-  styleUrls: ['./network-glimpse.component.css']
+  styleUrls: ['./network-glimpse.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NetworkGlimpseComponent implements OnInit, OnChanges {
-  @Input() private networkConfig: HorizonNetworkConfig;
-  public networkIsValid: boolean;
-  public networkServer: HorizonNetworkServer;
+export class NetworkGlimpseComponent implements OnInit {
+  public networkState: NetworkState;
+  public networkLastChecked: Date|null;
 
-  constructor() { }
+  constructor(private appState: AppStateService, private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.setNetworkState();
+    this.networkLastChecked = null;
+    this.setNetworkState(this.appState.networkState.value);
+    this.appState.networkUpdates.subscribe(this.setNetworkState.bind(this));
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.setNetworkState();
-  }
-
-  private setNetworkState(): void {
-    if (this.networkConfigIsValid(this.networkConfig)) {
-      this.networkIsValid = true;
-      this.networkServer = this.networkConfig;
-    } else {
-      this.networkIsValid = false;
-      this.networkServer = null;
-    }
-  }
-
-  private networkConfigIsValid(networkConfig: HorizonNetworkConfig): networkConfig is HorizonNetworkServer {
-    return this.networkConfig instanceof HorizonProductionServer || this.networkConfig instanceof HorizonTestServer;
+  private setNetworkState(networkState: NetworkState): void {
+    this.networkState = networkState;
+    this.networkLastChecked = new Date();
+    this.changeRef.markForCheck();
   }
 
 }

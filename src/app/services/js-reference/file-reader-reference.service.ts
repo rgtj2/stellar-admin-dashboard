@@ -3,25 +3,20 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class FileReaderReferenceService {
+export class FileReaderReferenceService extends FileReader {
   private _fileLoadedSubject: Subject<string|'FileReadError'>;
-  private nativeFileReader = FileReader;
 
   constructor() {
+    super();
+    this.onprogress = this.onFileReadProgress.bind(this);
+    this.onload = this.onFileLoaded.bind(this);
+    this.onerror = this.onFileReadError.bind(this);
   }
 
   public parseFileText(raw: Blob): Observable<string|'FileReadError'> {
     this.initSubject();
-    this.initFileReader(raw);
+    this.readAsText(raw);
     return this._fileLoadedSubject.asObservable();
-  }
-
-  private initFileReader(raw: Blob): void {
-    const reader = new FileReader();
-    reader.readAsText(raw);
-    reader.onprogress = this.onFileReadProgress.bind(this);
-    reader.onload = this.onFileLoaded.bind(this);
-    reader.onerror = this.onFileReadError.bind(this);
   }
 
   private onFileReadProgress($event): void {

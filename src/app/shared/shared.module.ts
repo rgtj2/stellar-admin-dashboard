@@ -5,6 +5,7 @@ import { TransactionListComponent } from './transactions/transaction-list/transa
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FriendbotComponent } from './friendbot/friendbot.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { CommonModule } from '@angular/common';
     NetworkGlimpseComponent,
     NetworkSwitcherComponent,
     StellarAccountGlimpseComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    FriendbotComponent
   ],
   exports: [
     NetworkGlimpseComponent,

@@ -1,11 +1,67 @@
 <div class="sad-network-switcher">
-    <div class="sad-network-switcher-title">Select Network</div>
+    <div class="sad-network-switcher-title">Current Network</div>
+
     <div class="sad-network-switcher-content">
-        <div class="sad-network-switcher-options">
-            <a (click)="setNetworkConfig('customTest')">Custom Network (TEST)</a>
-            <a (click)="setNetworkConfig('customProduction')">Custom Network (PRODUCTION)</a>
-            <a (click)="setNetworkConfig('stellarTest')">Stellar Network (TEST)</a>
-            <a (click)="setNetworkConfig('stellarProduction')">Stellar Network (PRODUCTION)</a>
+        <div class="sad-network-switcher-selection" (click)="showOptions = !showOptions">
+            <div>
+                <div class="sad-network-switcher-current">
+                    <div>{{currentAlias}}</div>
+                    <app-network-glimpse #glimpse></app-network-glimpse>
+                </div>
+                <div class="sad-network-last-checked">
+                    <div class="sad-network-last-checked-label">Last Checked:</div>
+                    <div class="sad-network-last-checked-label">{{glimpse.networkLastChecked | date:'short'}}</div>
+                </div>
+            </div>
+            <div class="sad-network-switcher-options-toggle" [ngSwitch]="showOptions">
+                <a class="sad-network-switcher-collapse" *ngSwitchCase="true">[-]</a>
+                <a class="sad-network-switcher-expand" *ngSwitchDefault>[+]</a>
+            </div>
+        </div>
+
+        <div *ngIf="showOptions" class="sad-network-switcher-options">
+            <a [ngClass]="{'sad-active-network': currentAlias==='stellarProduction'}" (click)="setNetworkConfig('stellarProduction')">
+                <div class="sad-network-switcher-option-display">
+                    <div class="sad-network-switcher-option-label">
+                        <i class="fa fa-sun"></i>Stellar (PRODUCTION)
+                    </div>
+                    <div *ngIf="currentAlias==='stellarProduction'">
+                        <i class="fa fa-rocket production"></i>
+                    </div>
+                </div>
+            </a>
+            <a [ngClass]="{'sad-active-network': currentAlias==='stellarTest'}" (click)="setNetworkConfig('stellarTest')">
+                <div class="sad-network-switcher-option-display">
+                    <div class="sad-network-switcher-option-label">
+                        <i class="fa fa-moon"></i>Stellar (TEST)
+                    </div>
+                    <div *ngIf="currentAlias==='stellarTest'">
+                        <i class="fa fa-rocket test"></i>
+                    </div>
+                </div>
+            </a>
+
+            <a [ngClass]="{'sad-active-network': currentAlias==='customProduction'}" (click)="setNetworkConfig('customProduction')">
+                <div class="sad-network-switcher-option-display">
+                    <div class="sad-network-switcher-option-label">
+                        <i class="far fa-sun"></i>Custom (PRODUCTION)
+                    </div>
+                    <div *ngIf="currentAlias==='customProduction'">
+                        <i class="fa fa-rocket production"></i>
+                    </div>
+                </div>
+            </a>
+
+            <a [ngClass]="{'sad-active-network': currentAlias==='customTest'}" (click)="setNetworkConfig('customTest')">
+                <div class="sad-network-switcher-option-display">
+                    <div class="sad-network-switcher-option-label">
+                        <i class="far fa-moon"></i>Custom (TEST)
+                    </div>
+                    <div *ngIf="currentAlias==='customTest'">
+                        <i class="fa fa-rocket test"></i>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </div>

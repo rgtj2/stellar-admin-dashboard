@@ -1,3 +1,4 @@
+import { AppStateService } from './../../app-state/app-state.service';
 import { AccountMaster, AccountMasterStellarConfig } from './../account-master';
 import { HorizonNetworkServer } from './../../network-environment/network-environment.service';
 import { AccountFile, RawAccountFile } from '../account-file/account-file';
@@ -18,7 +19,8 @@ export class LoginService {
 
   constructor(private accountFileLoader: AccountFileLoaderService,
               private accountFileReader: AccountFileReaderService,
-              private twoFactor: TwoFactorService) { }
+              private twoFactor: TwoFactorService,
+              private appState: AppStateService) { }
 
   loginWithStellarKeypair(accountAlias: string,
                           keypair: StellarAccountKeypair,
@@ -27,21 +29,19 @@ export class LoginService {
     return Observable.of(new AccountMasterStellarConfig(accountAlias, keypair, network, null));
   }
 
-  loginWithFileAndPassword(rawAccountFile: RawAccountFile,
+  loginWithFileAndPassword(accountAlias: string,
                            accountFilePassword: string,
-                           accountAlias: string,
-                           network: HorizonNetworkServer): Observable<AccountMaster|LoginError> {
+                           rawAccountFile: RawAccountFile): Observable<AccountMaster|LoginError> {
     return this.accountFileLoader.loadFile(accountFilePassword, rawAccountFile).pipe(
       switchMap((accountFile: AccountFile) => {
-        return this.authorize(accountFile, accountFilePassword, accountAlias, network);
+        return this.authorize(accountAlias, accountFile, accountFilePassword);
       })
     );
   }
 
-  private authorize(accountFile: AccountFile,
-                    accountFilePassword: string,
-                    accountAlias: string,
-                    network: HorizonNetworkServer): Observable<AccountMaster|LoginError> {
+  private authorize(accountAlias: string,
+                    accountFile: AccountFile,
+                    accountFilePassword: string): Observable<AccountMaster|LoginError> {
     // Ensure account file password is valid
     if (accountFile.accountFilePassword !== accountFilePassword) {
       return Observable.of(<LoginError>'Unauthorized');
@@ -52,6 +52,7 @@ export class LoginService {
       return Observable.of(<LoginError>'InvalidConfig');
     }
 
+    // Two-factor
     if (targetAccount.twoFactorConfig && targetAccount.twoFactorConfig.enabled) {
       this.twoFactor.authorize(accountFile).pipe(
         map((authorized: boolean) => {
@@ -66,5 +67,4 @@ export class LoginService {
   private formatAccountMaster(accountFile: AccountFile): AccountMaster {
     return new AccountMaster(accountFile);
   }
-
 }

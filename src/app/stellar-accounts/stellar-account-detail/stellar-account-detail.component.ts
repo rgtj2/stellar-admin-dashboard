@@ -1,3 +1,5 @@
+import { AccountFileAccountMasterConfig } from '../../services/auth/account-file/account-file';
+import { StellarAccountService } from './../../services/stellar-account/stellar-account.service';
 import { AppStateService, NetworkState } from './../../services/app-state/app-state.service';
 import { NetworkEnvironmentService } from './../../services/network-environment/network-environment.service';
 import { StellarAccountData } from './../../shared/models/stellar-account/stellar-account-data';
@@ -15,17 +17,16 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class StellarAccountDetailComponent implements OnInit, OnDestroy {
   public accountData: StellarAccountData;
-  private networkUpdates: Subscription;
+  public userFileForAccount: AccountFileAccountMasterConfig | null;
   private routeUpdates: Subscription;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private appState: AppStateService,
+              private accountService: StellarAccountService,
               private network: NetworkEnvironmentService) { }
 
   ngOnInit() {
-    this.routeUpdates = null;
-    this.networkUpdates = null;
     this.setStateFromRoute();
   }
 
@@ -33,17 +34,25 @@ export class StellarAccountDetailComponent implements OnInit, OnDestroy {
     this.clearSubscriptions();
   }
 
-  setStateFromRoute(): void {
+  private setStateFromRoute(): void {
     this.routeUpdates = this.route.data.subscribe((d: Resolvers.StellarAccountDetail) => {
       this.accountData = d.accountData;
+      this.userFileForAccount = this.currentUserAccount;
     });
   }
 
-  clearSubscriptions(): void {
+  // TODO: Not this
+  private get currentUserAccount(): AccountFileAccountMasterConfig | null {
+    if (this.appState.userState.value === 'none') {
+      return null;
+    } else {
+      return this.appState.userState.value.accountFileMasterConfigForStellarPublicKey(this.accountData.accountId);
+    }
+  }
+
+  private clearSubscriptions(): void {
     if (this.routeUpdates !== null) { this.routeUpdates.unsubscribe(); }
     this.routeUpdates = null;
-    if (this.networkUpdates !== null) { this.networkUpdates.unsubscribe(); }
-    this.networkUpdates = null;
   }
 
 }

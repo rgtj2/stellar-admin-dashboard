@@ -3,3 +3,7 @@
 body {
     background-color: #959c94;
 }
+
+dt {
+    font-weight: 600;
+}

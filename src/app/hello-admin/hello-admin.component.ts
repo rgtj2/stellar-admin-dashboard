@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs/Subscription';
-import { AppStateService, UserState } from './../services/app-state/app-state.service';
+import { AppStateService, UserState, NetworkState } from './../services/app-state/app-state.service';
 import { LoginService } from './../services/auth/login/login.service';
 import { AccountFileDownloadService } from './../services/auth/account-file/account-file-download.service';
 import { AccountFile, AccountFileAccountMasterConfig } from './../services/auth/account-file/account-file';
@@ -16,7 +16,7 @@ import {
 import { StellarAccountGeneratorService } from '../services/stellar-account/stellar-account-generator/stellar-account-generator.service';
 import { StellarAccountKeypair } from './../shared/models/stellar-account/stellar-account-keypair';
 
-import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
@@ -40,23 +40,31 @@ export class HelloAdminComponent implements OnInit, OnDestroy {
   public showSettingsLink: boolean;
   public accountMaster: AccountMaster;
   public accounts: AccountFileAccountMasterConfig[];
+  public networkAllowsFriendbot: boolean;
+  private networkUpdates: Subscription;
   private userUpdates: Subscription;
 
   constructor(private appState: AppStateService,
               private network: NetworkEnvironmentService,
-              private router: Router) { }
+              private router: Router,
+              private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.clearState();
-    this.initState(this.appState.userState.value);
+    this.initUserState(this.appState.userState.value);
     this.userUpdates = this.appState.userState.subscribe((m) => {
       console.log('userState!', m);
-      this.initState(m);
+      this.initUserState(m);
+    });
+    this.networkUpdates = this.appState.networkState.subscribe((s) => {
+      console.log('network state!', s);
+      this.initNetworkState(s);
     });
   }
 
   ngOnDestroy() {
     this.userUpdates.unsubscribe();
+    this.networkUpdates.unsubscribe();
   }
 
   private clearState(): void {
@@ -68,7 +76,7 @@ export class HelloAdminComponent implements OnInit, OnDestroy {
     this.accounts = [];
   }
 
-  private initState(userState: UserState): void {
+  private initUserState(userState: UserState): void {
     if (userState instanceof AccountMaster) {
       this.showAdminDashboard = true;
       this.showLogoutLink = true;
@@ -80,6 +88,18 @@ export class HelloAdminComponent implements OnInit, OnDestroy {
     }
   }
 
+  private initNetworkState(networkState: NetworkState): void {
+    console.log(networkState);
+    console.log(this.network.horizonConfig);
+    if (networkState === 'connected' && this.network.horizonConfig !== 'NetworkConfigError') {
+      this.networkAllowsFriendbot = this.network.horizonConfig.friendbotIsEnabled;
+    } else {
+      this.networkAllowsFriendbot = false;
+    }
+    this.changeRef.markForCheck();
+  }
+
+  // TODO: Move this to a route
   public logout(): void {
     this.appState.authState.next('unauthorized');
     this.appState.userState.next('none');

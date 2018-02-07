@@ -6,6 +6,9 @@ import { TransactionListComponent } from './transactions/transaction-list/transa
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FriendbotComponent } from './friendbot/friendbot.component';
+import { AccountIdPipe } from './pipes/account-id.pipe';
+import { PipesModule } from './pipes/pipes.module';
+import { SignerListComponent } from './stellar-accounts/signers/signer-list/signer-list.component';
 
 @NgModule({
   imports: [
@@ -16,13 +19,18 @@ import { FriendbotComponent } from './friendbot/friendbot.component';
     NetworkSwitcherComponent,
     StellarAccountGlimpseComponent,
     TransactionListComponent,
-    FriendbotComponent
+    FriendbotComponent,
+    AccountIdPipe,
+    SignerListComponent
   ],
   exports: [
+    FriendbotComponent,
     NetworkGlimpseComponent,
     NetworkSwitcherComponent,
     StellarAccountGlimpseComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    AccountIdPipe,
+    SignerListComponent
   ]
 })
 export class SharedModule { }

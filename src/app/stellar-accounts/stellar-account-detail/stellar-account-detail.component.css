@@ -1,4 +1,6 @@
-.sad-stellar-account-detail {
+.sad-stellar-account-detail-user-file,
+.sad-stellar-account-detail-basic-info,
+.sad-stellar-account-detail-signers {
     max-width: 20em;
     background-color: #e1e4d5;
     padding: .5em 1em;

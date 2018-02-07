@@ -3,6 +3,7 @@ import { StellarAccountData } from './../../shared/models/stellar-account/stella
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class StellarAccountService {
@@ -11,7 +12,12 @@ export class StellarAccountService {
 
   byKey(publicKey: string): Observable<StellarAccountData> {
     // TODO: Validate shape of publicKey
-    return this.horizonApi.get(`/accounts/${publicKey}`);
+    // TODO: Error handling
+    return this.horizonApi.get(`/accounts/${publicKey}`).pipe(
+      map((r) => {
+        return StellarAccountData.fromResult(r);
+      })
+    );
   }
 
 }

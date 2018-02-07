@@ -1,18 +1,23 @@
 <div class="sad-admin-home">
-    <div *ngIf="showLoginLink">
-        <a [routerLink]="['/login']">Login</a>
+    <div class="sad-admin-menu">
+        <!-- TODO: move this out.. -->
+        <a *ngIf="showLoginLink" [routerLink]="['/login']">Login</a>
+        <a *ngIf="showLogoutLink" (click)="logout()">Logout</a>
+        <a *ngIf="showSettingsLink" [routerLink]="['/settings']">Settings</a>
     </div>
-    <div *ngIf="showLogoutLink">
-        <a (click)="logout()">Logout</a>
-    </div>
-    <div *ngIf="showSettingsLink">
-        <a [routerLink]="['/settings']">Settings</a>
-    </div>
+
     <div *ngIf="showAdminDashboard">
-        Hello Admin!
+        <h4>Hello Admin!</h4>
         <div *ngFor="let account of accounts">
-            {{account.alias}} - {{account.networkConfig.passphrase}}
-            <a [routerLink]="['/accounts', accountPublicKey(account)]">View Account</a>
+            <dl>
+                <dt>Account</dt>
+                <dd>
+                    <a [routerLink]="['/accounts', accountPublicKey(account)]">{{account.alias}}</a>
+                </dd>
+                <dt>Network</dt>
+                <dd>{{account.networkConfig.passphrase}}</dd>
+            </dl>
+            <app-friendbot *ngIf="networkAllowsFriendbot" [publicKey]="accountPublicKey(account)"></app-friendbot>
         </div>
     </div>
 </div>

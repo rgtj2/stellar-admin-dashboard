@@ -1,3 +1,15 @@
 <div class="sad-stellar-account-detail">
-    <app-stellar-account-glimpse [accountData]="accountData"></app-stellar-account-glimpse>
+    <div class="sad-stellar-account-detail-user-file" *ngIf="userFileForAccount">
+        You control this account
+    </div>
+    <div class="sad-stellar-account-detail-basic-info">
+        <app-stellar-account-glimpse [accountData]="accountData"></app-stellar-account-glimpse>
+    </div>
+
+    <div class="sad-stellar-account-detail-signers">
+        <app-signer-list [signers]="accountData.signers" [userAccountFile]="userFileForAccount"></app-signer-list>
+        <!-- TODO: Rename that ^ -->
+    </div>
+
+    {{networkHelperState | json}}
 </div>

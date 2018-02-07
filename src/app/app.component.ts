@@ -1,3 +1,4 @@
+import { AppStateService } from './services/app-state/app-state.service';
 import {
   NetworkEnvironmentService,
   HorizonNetworkAlias,
@@ -14,9 +15,12 @@ import { HorizonApiService } from './services/horizon-api/horizon-api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor() {}
+  constructor(private appState: AppStateService) {}
 
   ngOnInit(): void {
+    this.appState.requestState.subscribe((r) => {
+      console.log('request state', r);
+    });
   }
 
 }

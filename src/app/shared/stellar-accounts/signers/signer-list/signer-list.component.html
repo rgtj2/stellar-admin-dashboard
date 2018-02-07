@@ -1,0 +1,12 @@
+<dl>
+    <dt>Signers:</dt>
+    <dd>
+        <div *ngFor="let account of signerList">
+            <div class="signer-id">
+
+                <span>{{account.signer.publicKey | accountId}}</span>
+                <span *ngIf="account.isUser"> - You!</span>
+            </div>
+        </div>
+    </dd>
+</dl>

@@ -1,6 +1,6 @@
 <div class="sad-login-form">
     <div class="sad-login-form-container">
-        <form *ngIf="loginMethod==='accountFile'; else newAccount" [formGroup]="fileLoginForm" (ngSubmit)="submitFileForm()">
+        <form *ngIf="loginMethod==='accountFile'; else newAccount" [formGroup]="fileLoginForm" (ngSubmit)="submitFileForm(fileLoginForm)">
             <div class="sad-login-form-title">Login</div>
             <div class="sad-form-input">
                 <input placeholder="Account Nickname" formControlName="accountAlias" />

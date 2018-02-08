@@ -1,12 +1,5 @@
 <div class="sad-admin-home">
-    <div class="sad-admin-menu">
-        <!-- TODO: move this out.. -->
-        <a *ngIf="showLoginLink" [routerLink]="['/login']">Login</a>
-        <a *ngIf="showLogoutLink" (click)="logout()">Logout</a>
-        <a *ngIf="showSettingsLink" [routerLink]="['/settings']">Settings</a>
-    </div>
-
-    <div *ngIf="showAdminDashboard">
+    <div *ngIf="showAdminDashboard; else welcome">
         <h4>Hello Admin!</h4>
         <div *ngFor="let account of accounts">
             <dl>
@@ -20,6 +13,9 @@
             <app-friendbot *ngIf="networkAllowsFriendbot" [publicKey]="accountPublicKey(account)"></app-friendbot>
         </div>
     </div>
+    <ng-template #welcome>
+        Hi!. This will eventually explain stuff...
+    </ng-template>
 </div>
 
 <!-- Request state.. move this out -->

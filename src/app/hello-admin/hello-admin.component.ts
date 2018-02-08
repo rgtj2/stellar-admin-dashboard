@@ -34,10 +34,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HelloAdminComponent implements OnInit, OnDestroy {
-  public showLoginLink: boolean;
-  public showLogoutLink: boolean;
   public showAdminDashboard: boolean;
-  public showSettingsLink: boolean;
   public accountMaster: AccountMaster;
   public accounts: AccountFileAccountMasterConfig[];
   public networkAllowsFriendbot: boolean;
@@ -68,10 +65,7 @@ export class HelloAdminComponent implements OnInit, OnDestroy {
   }
 
   private clearState(): void {
-    this.showLoginLink = false;
-    this.showLogoutLink = false;
     this.showAdminDashboard = false;
-    this.showSettingsLink = false;
     this.accountMaster = null;
     this.accounts = [];
   }
@@ -79,12 +73,8 @@ export class HelloAdminComponent implements OnInit, OnDestroy {
   private initUserState(userState: UserState): void {
     if (userState instanceof AccountMaster) {
       this.showAdminDashboard = true;
-      this.showLogoutLink = true;
-      this.showSettingsLink = true;
       this.accountMaster = userState;
       this.accounts = this.accountMaster.accountFile.stellarAccounts;
-    } else {
-      this.showLoginLink = true;
     }
   }
 

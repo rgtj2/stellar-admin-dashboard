@@ -37,7 +37,7 @@ export class NetworkSwitcherComponent implements OnInit {
     this.showOptions = false;
     this.networkConfig = null;
     this.currentAlias = null;
-    this.setNetworkConfig('stellarTest');
+    this.setNetworkConfig('customTest');
     // Move this out of here ^^
 
     console.log(this.appState);

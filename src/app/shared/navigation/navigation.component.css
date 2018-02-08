@@ -1,0 +1,19 @@
+.sad-active-navigation {
+    background-color: green;
+    color: white;
+}
+
+a.sad-active-navigation:hover {
+    color: white;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a {
+    color: black;
+    padding: .5em;
+}

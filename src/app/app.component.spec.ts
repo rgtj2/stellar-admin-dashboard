@@ -1,3 +1,4 @@
+import { AppStateService } from './services/app-state/app-state.service';
 import { HorizonApiService } from './services/horizon-api/horizon-api.service';
 import { AppComponent } from './app.component';
 import { NetworkEnvironmentService } from './services/network-environment/network-environment.service';
@@ -10,15 +11,21 @@ import { Subject } from 'rxjs/Subject';
 describe('AppComponent', () => {
   let component: AppComponent;
   let handle: TestComponentHandle<AppComponent>;
+  let mockAppState;
 
   beforeEach(async(() => {
+    mockAppState = {
+      requestState: new Subject()
+    };
 
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: []
+      providers: [
+        {provide: AppStateService, useValue: mockAppState}
+      ]
     }).compileComponents();
   }));
 

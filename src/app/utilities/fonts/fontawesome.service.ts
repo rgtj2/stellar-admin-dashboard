@@ -4,7 +4,9 @@ import {
   faMoon as faSolidMoon,
   faSun as faSolidSun,
   faRocket,
-  faServer
+  faServer,
+  faUserPlus,
+  faSignInAlt
 } from '@fortawesome/fontawesome-free-solid';
 import { faMoon, faSun } from '@fortawesome/fontawesome-free-regular';
 
@@ -18,7 +20,9 @@ export class FontawesomeService {
       faSolidMoon,
       faSolidSun,
       faRocket,
-      faServer
+      faServer,
+      faUserPlus,
+      faSignInAlt
     );
   }
 

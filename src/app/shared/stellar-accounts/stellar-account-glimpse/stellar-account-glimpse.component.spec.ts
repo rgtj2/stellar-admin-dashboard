@@ -1,3 +1,4 @@
+import { AccountIdPipe } from './../../pipes/account-id.pipe';
 import { StellarAccountData } from './../../models/stellar-account/stellar-account-data';
 import { HorizonApiService } from './../../../services/horizon-api/horizon-api.service';
 import { StellarAccountGlimpseComponent } from './stellar-account-glimpse.component';
@@ -10,7 +11,10 @@ describe('StellarAccountGlimpseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StellarAccountGlimpseComponent ]
+      declarations: [
+        StellarAccountGlimpseComponent,
+        AccountIdPipe
+      ]
     })
     .compileComponents();
   }));
@@ -18,7 +22,7 @@ describe('StellarAccountGlimpseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StellarAccountGlimpseComponent);
     component = fixture.componentInstance;
-    component.accountData = <StellarAccountData>{};
+    component.accountData = <StellarAccountData>{accountId: ''};
     fixture.detectChanges();
   });
 

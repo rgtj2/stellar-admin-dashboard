@@ -1,4 +1,4 @@
-<div class="sad-stellar-account-detail">
+<div *ngIf="accountData" class="sad-stellar-account-detail">
     <div class="sad-stellar-account-detail-user-file" *ngIf="userFileForAccount">
         You control this account
     </div>
@@ -11,5 +11,4 @@
         <!-- TODO: Rename that ^ -->
     </div>
 
-    {{networkHelperState | json}}
 </div>

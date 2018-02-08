@@ -22,11 +22,10 @@ export class StellarAccountDetailComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private appState: AppStateService,
-              private accountService: StellarAccountService,
-              private network: NetworkEnvironmentService) { }
+              private appState: AppStateService) { }
 
   ngOnInit() {
+    this.accountData = null;
     this.setStateFromRoute();
   }
 

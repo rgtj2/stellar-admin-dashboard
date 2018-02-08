@@ -1,3 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AccountIdPipe } from './../../../pipes/account-id.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignerListComponent } from './signer-list.component';
@@ -8,7 +10,11 @@ describe('SignerListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SignerListComponent ]
+      declarations: [
+        SignerListComponent,
+        AccountIdPipe
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));
@@ -16,6 +22,7 @@ describe('SignerListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SignerListComponent);
     component = fixture.componentInstance;
+    component.signers = [];
     fixture.detectChanges();
   });
 

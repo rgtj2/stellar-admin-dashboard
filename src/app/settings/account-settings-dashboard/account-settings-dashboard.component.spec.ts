@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountSettingsDashboardComponent } from './account-settings-dashboard.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AccountSettingsDashboardComponent', () => {
   let component: AccountSettingsDashboardComponent;
@@ -8,7 +9,8 @@ describe('AccountSettingsDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountSettingsDashboardComponent ]
+      declarations: [ AccountSettingsDashboardComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));

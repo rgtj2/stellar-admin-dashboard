@@ -1,3 +1,4 @@
+import { LogoutGuard } from './logout-guard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -5,11 +6,15 @@ import { LoginFormComponent } from '../login-form/login-form/login-form.componen
 
 const routes: Routes = [
   {
-    path: 'form',
+    path: 'start',
     component: LoginFormComponent,
   },
   {
-    path: '', redirectTo: 'form', pathMatch: 'full'
+    path: 'end',
+    canActivate: [LogoutGuard]
+  },
+  {
+    path: '', redirectTo: 'start', pathMatch: 'full'
   }
 ];
 
@@ -19,6 +24,8 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [],
-  providers: []
+  providers: [
+    LogoutGuard
+  ]
 })
 export class LoginRoutingModule { }

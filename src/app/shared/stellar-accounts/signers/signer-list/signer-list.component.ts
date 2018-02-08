@@ -15,10 +15,10 @@ interface AccountSignerViewModel {
 })
 export class SignerListComponent implements OnInit {
   public signerList: AccountSignerViewModel[];
-  @Input() private signers: StellarAccountSigner[];
+  @Input() public signers: StellarAccountSigner[];
   @Input() private userAccountFile: AccountFileAccountMasterConfig | null;
 
-  constructor(private appState: AppStateService) { }
+  constructor() { }
 
   ngOnInit() {
     this.signerList = this.signers.map(s => {

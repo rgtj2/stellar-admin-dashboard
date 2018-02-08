@@ -3,7 +3,6 @@ import { AccountMaster, AccountMasterStellarConfig } from './../account-master';
 import { HorizonNetworkServer } from './../../network-environment/network-environment.service';
 import { AccountFile, RawAccountFile } from '../account-file/account-file';
 import { AccountFileLoaderService } from './../account-file/account-file-loader.service';
-import { AccountFileReaderService } from '../account-file/account-file-reader.service';
 import { TwoFactorService } from './../two-factor/two-factor.service';
 
 import { Injectable } from '@angular/core';
@@ -18,7 +17,6 @@ type LoginError = 'Unauthorized' | 'InvalidConfig';
 export class LoginService {
 
   constructor(private accountFileLoader: AccountFileLoaderService,
-              private accountFileReader: AccountFileReaderService,
               private twoFactor: TwoFactorService,
               private appState: AppStateService) { }
 

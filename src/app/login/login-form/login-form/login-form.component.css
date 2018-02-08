@@ -4,3 +4,51 @@
     padding: .5em 1em;
     margin-top: .5em;
 }
+
+.sad-form-input,
+.sad-link-container,
+.sad-link-container {
+    margin: .25em;
+    height: 1.5em;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sad-submit-button {
+    padding: .5em;
+    border: 1px solid #ddd;
+    background-color: #999;
+    color: white;
+}
+
+.sad-login-form-title {
+    color: green;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.sad-link-container {
+    align-self: flex-end;
+    font-size: .85em;
+    margin-top: 1em;
+}
+
+.sad-default-link {
+    color: blue;
+    cursor: pointer;
+}
+
+.sad-default-link:hover {
+    color: lightslategray;
+}
+
+.valid-button {
+    cursor: pointer;
+    background-color: green;
+    color: lightgreen;
+    font-weight: 600;
+}

@@ -1,22 +1,51 @@
 <div class="sad-login-form">
-    <div class="sad-login-form-title">Login</div>
-
     <div class="sad-login-form-container">
-        <div *ngIf="loginMethod==='accountFile'; else newAccount" [formGroup]="fileLoginForm">
-            <input placeholder="Account Nickname" formControlName="accountAlias" />
-            <input placeholder="Secret" formControlName="accountFilePassword" />
+        <form *ngIf="loginMethod==='accountFile'; else newAccount" [formGroup]="fileLoginForm" (ngSubmit)="submitFileForm()">
+            <div class="sad-login-form-title">Login</div>
+            <div class="sad-form-input">
+                <input placeholder="Account Nickname" formControlName="accountAlias" />
+            </div>
+            <div class="sad-form-input">
+                <input placeholder="Secret" formControlName="accountFilePassword" />
+            </div>
             <!-- TODO: ^^ secretMask Directive ^^ -->
-            <input type="file" (change)="onFileSelect($event)" />
-            <a (click)="submitFileForm()">Login</a>
-        </div>
+            <div class="sad-form-input">
+                <input type="file" (change)="onFileSelect($event)" />
+            </div>
+            <div class="sad-submit-container">
+                <button class="sad-submit-button" #fileSubmit type="submit" [class.valid-button]="fileLoginForm.valid">Login</button>
+            </div>
+            <div class="sad-link-container">
+                <span>Need an account?</span>
+
+                <a class="sad-default-link sad-login-form-switcher" (click)="loginMethod='stellarKeypair'">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Create New Stellar Keypair</span>
+                </a>
+            </div>
+        </form>
 
         <ng-template #newAccount>
-            <div [formGroup]="newStellarForm">
-                <input placeholder="Account Nickname" formControlName="accountAlias" />
-                <input placeholder="Secret" formControlName="accountFilePassword" />
+            <form class="sad-form" [formGroup]="newStellarForm" (ngSubmit)="submitNewStellarForm(newStellarForm)">
+                <div class="sad-login-form-title">Create Account</div>
+                <div class="sad-form-input">
+                    <input placeholder="Account Nickname" formControlName="accountAlias" />
+                </div>
+                <div class="sad-form-input">
+                    <input placeholder="Secret" formControlName="accountFilePassword" />
+                </div>
                 <!-- TODO: ^^ secretMask Directive ^^ -->
-            </div>
-            <a (click)="submitNewStellarForm()">Login</a>
+                <div class="sad-submit-container">
+                    <button class="sad-submit-button" type="submit" [class.valid-button]="newStellarForm.valid">Create Account</button>
+                </div>
+                <div class="sad-link-container">
+                    <span>Already have an account?</span>
+                    <a class="sad-default-link sad-login-form-switcher" (click)="loginMethod='accountFile'">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login with Account File</span>
+                    </a>
+                </div>
+            </form>
         </ng-template>
     </div>
 </div>

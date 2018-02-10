@@ -10,6 +10,7 @@ import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,10 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     RoutingModule,
     ServicesModule,
-    SharedModule
+    SharedModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
   providers: [
     FontawesomeService

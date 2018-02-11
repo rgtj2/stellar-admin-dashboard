@@ -95,7 +95,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
             const account = new AccountFile([accountConfig], values.accountFilePassword);
             const master = new AccountMaster(account);
             this.appState.userState.next(master);
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/']);
           }
         });
     }
@@ -119,7 +119,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           const accountPublicKey = v.accountFile.stellarAccounts[0].stellarAccountConfig.publicKey;
           this.appState.userState.next(v);
           this.appState.authState.next('authorized');
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/']);
         }
       });
   }

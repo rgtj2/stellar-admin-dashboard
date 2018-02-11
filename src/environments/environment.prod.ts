@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  DEFAULT_NETWORK_ALIAS: 'stellarTest',
   CUSTOM_HORIZON_PRODUCTION_URL: 'http://localhost:8000',
   CUSTOM_HORIZON_TEST_URL: 'http://localhost:8000',
   CUSTOM_NETWORK_PRODUCTION_PASSPHRASE: 'Integration Test Network ; zulucrypto',

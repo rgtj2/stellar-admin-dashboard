@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'admin',
+    path: '',
     component: HelloAdminComponent,
     children: []
   }, {
@@ -19,7 +19,7 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: './../settings/settings.module#SettingsModule'
-  }, { path: '', component: HelloAdminComponent }
+  }
 ];
 
 @NgModule({

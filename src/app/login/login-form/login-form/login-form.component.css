@@ -32,13 +32,16 @@ form {
 }
 
 .sad-link-container {
-    align-self: flex-end;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
     font-size: .85em;
-    margin-top: 1em;
+    margin: 1em;
 }
 
 .sad-default-link {
     color: blue;
+    padding-top: .25rem;
     cursor: pointer;
 }
 

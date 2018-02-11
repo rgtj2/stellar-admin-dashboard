@@ -5,13 +5,13 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build --prod",
+        "build": "ng build --prod --aot",
         "test": "ng test --sourcemap=false",
         "lint": "ng lint",
         "e2e": "ng e2e",
         "stellar-ephemeral": "./scripts/init-ephemeral-network.sh",
         "stellar-persistent": "./scripts/init-persistent-network.sh",
-        "build-pwa": "ng build --prod && node_modules/.bin/http-server dist/ -p 8080"
+        "serve-pwa": "ng build --prod --aot && node_modules/.bin/http-server dist/ -p 8080"
     },
     "private": true,
     "dependencies": {

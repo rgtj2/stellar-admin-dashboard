@@ -1,4 +1,4 @@
-<a [routerLink]="['/admin']" routerLinkActive="sad-active-navigation">Home</a>
+<a [routerLink]="['/']" routerLinkActive="sad-active-navigation" [routerLinkActiveOptions]="{ exact: true }">Home</a>
 <a *ngIf="showLoginLink" routerLinkActive="sad-active-navigation" [routerLink]="['/login/start']">Login</a>
 <a *ngIf="showLogoutLink" [routerLink]="['/login/end']">Logout</a>
 <a *ngIf="showSettingsLink" routerLinkActive="sad-active-navigation" [routerLink]="['/settings']">Settings</a>

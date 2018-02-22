@@ -1,3 +1,5 @@
+_**Deprecated**_
+
 # StellarAdminDashboard
 
 Dashboard for administering a Stellar test network
